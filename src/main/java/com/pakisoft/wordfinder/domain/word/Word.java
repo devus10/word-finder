@@ -4,42 +4,34 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @EqualsAndHashCode
 public class Word {
 
-    private final String word;
+    private final String textString;
     private final Boolean existsInDictionary;
     private final Set<String> assembledDictionaryWords;
 
-    public static Word existing(String word) {
-        return new Word(
-                word,
-                true,
-                null
-        );
+    public static Word create(String string, Set<String> assembledDictionaryWords) {
+        Set<String> words = getOrEmptySet(assembledDictionaryWords);
+        boolean exists = wordIsInAssembledWords(string, words);
+
+        return new Word(string, exists, words);
     }
 
-    public static Word nonExisting(String word) {
-        return new Word(
-                word,
-                false,
-                null);
+    private static Set<String> getOrEmptySet(Set<String> assembledDictionaryWords) {
+        return assembledDictionaryWords != null ? assembledDictionaryWords : Collections.emptySet();
     }
 
-    public static Word withAssembledDictionaryWords(String string, Set<String> assembledDictionaryWords) {
-        return new Word(
-                string,
-                false,
-                assembledDictionaryWords
-        );
+    private static boolean wordIsInAssembledWords(String string, Set<String> words) {
+        return words.stream()
+                .anyMatch(word -> word.equalsIgnoreCase(string));
     }
 
-    private Word(String word, Boolean existsInDictionary, Set<String> assembledDictionaryWords) {
-        this.word = word;
+    private Word(String textString, Boolean existsInDictionary, Set<String> assembledDictionaryWords) {
+        this.textString = textString;
         this.existsInDictionary = existsInDictionary;
         this.assembledDictionaryWords = assembledDictionaryWords;
     }

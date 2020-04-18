@@ -1,2 +1,9 @@
 dictionary-text-file: odm.txt
 
+dictionary:
+  polish:
+    url: https://sjp.pl/slownik/odmiany/
+
+retrieve-methods:
+  online-file: polish
+  web-endpoint: english
