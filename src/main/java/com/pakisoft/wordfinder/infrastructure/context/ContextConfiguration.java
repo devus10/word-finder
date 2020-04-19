@@ -4,16 +4,16 @@ import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
-import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import com.pakisoft.wordfinder.domain.word.WordDomainService;
 import com.pakisoft.wordfinder.infrastructure.dictionary.InMemoryDictionaryRepository;
-import com.pakisoft.wordfinder.infrastructure.dictionary.PolishWordsRetriever;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Set;
 
 @Configuration
+@EnableScheduling
 public class ContextConfiguration {
 
     @Bean

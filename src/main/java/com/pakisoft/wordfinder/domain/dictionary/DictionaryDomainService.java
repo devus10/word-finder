@@ -3,8 +3,8 @@ package com.pakisoft.wordfinder.domain.dictionary;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -16,7 +16,7 @@ public class DictionaryDomainService {
     private final DictionaryRepository dictionaryRepository;
     private final Set<DictionaryRetriever> dictionaryRetrievers;
 
-    @PostConstruct
+    @Scheduled(fixedDelayString = "3000")
     public void saveDictionaries() {
         dictionaryRetrievers.forEach(onRead());
     }
@@ -29,7 +29,20 @@ public class DictionaryDomainService {
     }
 
     private Consumer<Dictionary> onSuccessfullyRetrievedDictionary() {
-        return dictionary -> dictionaryRepository.save(Dictionary.withStringsWithAssembledWordsDictionary(dictionary));
+        return retrievedDictionary -> {
+            dictionaryRepository.findByLanguage(retrievedDictionary.getLanguage())
+                    .ifPresentOrElse(foundDictionary -> {
+                        if (foundDictionary.shouldBeOverwrittenBy(retrievedDictionary)) {
+                            dictionaryRepository.save(Dictionary.withStringsWithAssembledWordsDictionary(retrievedDictionary));
+                            log.info("{} dictionary updated", foundDictionary.getLanguage());
+                        } else {
+                            log.info("{} dictionary is up-to-date. No update required.", retrievedDictionary.getLanguage());
+                        }
+                    }, () -> {
+                        dictionaryRepository.save(Dictionary.withStringsWithAssembledWordsDictionary(retrievedDictionary));
+                        log.info("{} dictionary saved", retrievedDictionary.getLanguage());
+                    });
+        };
     }
 
     private Runnable onFailedToRetrieveDictionary(DictionaryLanguage language) {
@@ -40,6 +53,7 @@ public class DictionaryDomainService {
         try {
             return Optional.of(dictionaryRetriever.getDictionary());
         } catch (DictionaryException e) {
+            log.info(e.getCause().toString());
             return Optional.empty();
         }
     }

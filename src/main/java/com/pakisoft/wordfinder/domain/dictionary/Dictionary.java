@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static com.pakisoft.wordfinder.domain.util.StringUtil.lowerCasedAndSortedAlphabetically;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
+@Getter()
 @EqualsAndHashCode(of = {"language"})
 @Slf4j
 public class Dictionary {
@@ -25,12 +25,15 @@ public class Dictionary {
     private final Set<String> words;
     private final Map<String, Set<String>> stringsWithAssembledWordsDictionary;
 
-    public static Dictionary create(DictionaryLanguage language, Set<String> dictionary) {
-        return new Dictionary(
+    public static Dictionary create(DictionaryLanguage language, Set<String> words) {
+        log.info("started to create dictionary");
+        var x = new Dictionary(
                 language,
-                dictionary,
+                words,
                 Collections.emptyMap()
         );
+        log.info("finished to create dictionary");
+        return x;
     }
 
     public static Dictionary withStringsWithAssembledWordsDictionary(Dictionary dictionary) {
@@ -45,8 +48,16 @@ public class Dictionary {
         return stringsWithAssembledWordsDictionary.get(lowerCasedAndSortedAlphabetically(string));
     }
 
+    public boolean shouldBeOverwrittenBy(Dictionary dictionary) {
+        //TODO: slowa moga byc usuwane ze slownika - to tez wymaga updateu
+        log.info("start to check contains");
+        boolean x = !this.words.containsAll(dictionary.words);
+        log.info("finished to check contains");
+        return x;
+    }
+
     private static Map<String, Set<String>> createStringsWithAssembledWordsDictionary(Set<String> dictionary) {
-        log.info("Started to create the dictionary");
+        log.info("Started to create the assembled dictionary");
         Map<String, Set<String>> map = dictionary.stream()
                 .collect(Collectors.toMap(StringUtil::lowerCasedAndSortedAlphabetically,
                         s -> new HashSet<>(),
@@ -55,7 +66,7 @@ public class Dictionary {
                 );
 
         dictionary.forEach(word -> map.get(lowerCasedAndSortedAlphabetically(word)).add(word));
-        log.info("Dictionary created");
+        log.info("Assembled Dictionary created");
 
         return map;
     }
