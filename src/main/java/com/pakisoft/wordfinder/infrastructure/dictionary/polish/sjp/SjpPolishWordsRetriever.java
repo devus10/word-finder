@@ -12,7 +12,6 @@ import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.FileNotFoundException;
@@ -27,7 +26,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
 @RequiredArgsConstructor
 public class SjpPolishWordsRetriever implements PolishWordsRetriever {
 
@@ -37,7 +35,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     private Logger log = LoggerFactory.getLogger(SjpPolishWordsRetriever.class);
 
     private final FileReader fileReader;
-    private final JsoupWebScraper jsoupWebScraper;
+    private final HtmlDocumentFetcher htmlDocumentFetcher;
     private final FileUtil fileUtil;
 
     @Value("${dictionary.polish.url}")
@@ -127,7 +125,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     public void scrapZipFileNameFromSjpWebPage() throws IOException, NoSuchElementException {
-        sjpZipFileName = jsoupWebScraper.getDocument(dictionaryUrl)
+        sjpZipFileName = htmlDocumentFetcher.getDocument(dictionaryUrl)
                 .getElementsByAttributeValueEnding("href", ".zip").stream()
                 .findAny()
                 .map(Element::attributes)

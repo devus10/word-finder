@@ -25,7 +25,7 @@ class SjpPolishWordsRetrieverUT extends Specification {
 
     private FileReader fileReader = Spy(TextFileReader)
     private FileUtil fileUtil = Mock()
-    private JsoupWebScraper jsoupWebScraper = Mock()
+    private HtmlDocumentFetcher jsoupWebScraper = Mock()
     def retriever = new SjpPolishWordsRetriever(
             fileReader,
             jsoupWebScraper,
