@@ -21,7 +21,7 @@ public class WordDomainService implements WordService {
     private Set<String> getDictionaryAnagramsFrom(String string, String languageCode) {
         Language language = findDictionaryLanguage(languageCode);
         return dictionaryRepository.findByLanguage(language)
-                .orElseThrow(() -> new IllegalStateException(String.format("No dictionary for language '%s' found.", languageCode)))
+                .orElseThrow(() -> new IllegalStateException(String.format("No dictionary for '%s' language found.", language)))
                 .findWordsAssembledFrom(string);
     }
 

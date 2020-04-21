@@ -1,8 +1,6 @@
-dictionary-text-file: odm.txt
-
-dictionary-target-directory: dictionaries
+dictionary-target-directory:
 
 dictionary:
   polish:
-    url: https://sjp.pl/slownik/odmiany/
-    target-dir: ${dictionary-target-directory}/polish
+    url:
+    target-dir:

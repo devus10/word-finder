@@ -117,7 +117,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     private String getSjpZipFileUrl() {
-        return dictionaryUrl + sjpZipFileName;
+        return dictionaryUrl + "/" + sjpZipFileName;
     }
 
     private void scrapZipFileNameFromSjpWebPage() throws IOException, NoSuchElementException {
