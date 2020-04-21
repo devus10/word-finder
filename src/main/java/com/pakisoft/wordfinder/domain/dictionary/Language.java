@@ -8,14 +8,16 @@ import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
-public enum DictionaryLanguage {
+public enum Language {
 
-    ENGLISH("eng"),
-    POLISH("pl");
+    ENGLISH("en"),
+    FRENCH("fr"),
+    POLISH("pl"),
+    RUSSIAN("ru");
 
     private final String code;
 
-    public static Optional<DictionaryLanguage> findByCode(String languageCode) {
+    public static Optional<Language> findByCode(String languageCode) {
         return Stream.of(values())
                 .filter(dictionaryLanguage -> dictionaryLanguage.code.equals(languageCode))
                 .findAny();

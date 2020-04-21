@@ -10,7 +10,12 @@ public class DomainException extends RuntimeException {
         super(e);
     }
 
-    public DomainException(String message) {
-        super(message);
+    public String details() {
+        var cause = this.getCause();
+        if (cause != null) {
+            return getCause().toString();
+        }
+
+        return this.getMessage();
     }
 }

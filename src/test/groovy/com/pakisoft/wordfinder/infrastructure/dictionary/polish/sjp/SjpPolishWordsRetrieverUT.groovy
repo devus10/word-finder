@@ -1,9 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
 
-import com.pakisoft.wordfinder.domain.port.secondary.FailedWordsRetrievingException
-import com.pakisoft.wordfinder.infrastructure.dictionary.FileReader
-import com.pakisoft.wordfinder.infrastructure.dictionary.FileUtil
-import com.pakisoft.wordfinder.infrastructure.dictionary.TextFileReader
+import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -88,7 +85,7 @@ class SjpPolishWordsRetrieverUT extends Specification {
         retriever.getWords()
 
         then: 'exception is thrown'
-        def ex = thrown(FailedWordsRetrievingException)
+        def ex = thrown(WordsRetriever.FailedWordsRetrievingException)
         ex.message == 'Failed to retrieve words'
 
         and:

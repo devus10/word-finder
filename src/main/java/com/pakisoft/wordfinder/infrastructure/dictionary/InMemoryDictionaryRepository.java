@@ -1,7 +1,7 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary;
 
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary;
-import com.pakisoft.wordfinder.domain.dictionary.DictionaryLanguage;
+import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 
 import java.util.HashSet;
@@ -18,7 +18,7 @@ public class InMemoryDictionaryRepository implements DictionaryRepository {
     }
 
     @Override
-    public Optional<Dictionary> findByLanguage(DictionaryLanguage language) {
+    public Optional<Dictionary> findByLanguage(Language language) {
         return dictionaries.stream()
                 .filter(dictionary -> language.equals(dictionary.getLanguage()))
                 .findFirst();

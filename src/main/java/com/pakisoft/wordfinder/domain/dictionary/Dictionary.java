@@ -16,58 +16,57 @@ import java.util.stream.Collectors;
 import static com.pakisoft.wordfinder.domain.util.StringUtil.lowerCasedAndSortedAlphabetically;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter()
+@Getter
 @EqualsAndHashCode(of = {"language"})
 @Slf4j
 public class Dictionary {
 
-    private final DictionaryLanguage language;
+    private final Language language;
     private final Set<String> words;
-    private final Map<String, Set<String>> stringsWithAssembledWordsDictionary;
+    private final Map<String, Set<String>> anagramsFromString;
 
-    public static Dictionary create(DictionaryLanguage language, Set<String> words) {
-        log.info("started to create dictionary");
-        var x = new Dictionary(
+    static Dictionary create(Language language, Set<String> words) {
+        return new Dictionary(
                 language,
                 words,
                 Collections.emptyMap()
         );
-        log.info("finished to create dictionary");
-        return x;
     }
 
-    public static Dictionary withStringsWithAssembledWordsDictionary(Dictionary dictionary) {
+    static Dictionary withAnagramsFromString(Dictionary dictionary) {
         return new Dictionary(
                 dictionary.language,
                 dictionary.words,
-                createStringsWithAssembledWordsDictionary(dictionary.words)
+                createAnagramsMap(dictionary)
         );
     }
 
     public Set<String> findWordsAssembledFrom(String string) {
-        return stringsWithAssembledWordsDictionary.get(lowerCasedAndSortedAlphabetically(string));
+        return anagramsFromString.get(lowerCasedAndSortedAlphabetically(string));
     }
 
-    public boolean shouldBeOverwrittenBy(Dictionary dictionary) {
+    boolean shouldBeOverwrittenBy(Dictionary dictionary) {
         //TODO: slowa moga byc usuwane ze slownika - to tez wymaga updateu
-        log.info("start to check contains");
-        boolean x = !this.words.containsAll(dictionary.words);
-        log.info("finished to check contains");
-        return x;
+        return !this.words.containsAll(dictionary.words);
     }
 
-    private static Map<String, Set<String>> createStringsWithAssembledWordsDictionary(Set<String> dictionary) {
-        log.info("Started to create the assembled dictionary");
-        Map<String, Set<String>> map = dictionary.stream()
+    private static Map<String, Set<String>> createAnagramsMap(Dictionary dictionary) {
+        log.info("Starting to create anagrams map for {} dictionary", dictionary);
+        Map<String, Set<String>> map = dictionary.words.stream()
                 .collect(Collectors.toMap(StringUtil::lowerCasedAndSortedAlphabetically,
                         s -> new HashSet<>(),
                         (s1, s2) -> s1
                         )
                 );
 
-        dictionary.forEach(word -> map.get(lowerCasedAndSortedAlphabetically(word)).add(word));
-        log.info("Assembled Dictionary created");
+        dictionary.words.forEach(word -> map.get(lowerCasedAndSortedAlphabetically(word)).add(word));
+        log.info("Finished to create anagrams map for {}", dictionary);
 
         return map;
+    }
+
+    @Override
+    public String toString() {
+        return this.language + " dictionary";
     }
 }

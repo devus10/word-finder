@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;

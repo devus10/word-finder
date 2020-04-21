@@ -3,7 +3,6 @@ package com.pakisoft.wordfinder.domain.dictionary;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Optional;
 import java.util.Set;
@@ -16,36 +15,45 @@ public class DictionaryDomainService {
     private final DictionaryRepository dictionaryRepository;
     private final Set<DictionaryRetriever> dictionaryRetrievers;
 
-    @Scheduled(fixedDelayString = "3000")
     public void saveDictionaries() {
-        dictionaryRetrievers.forEach(onRead());
-    }
-
-    private Consumer<DictionaryRetriever> onRead() {
-        return dictionaryRetriever -> {
-            getDictionary(dictionaryRetriever)
-                    .ifPresentOrElse(onSuccessfullyRetrievedDictionary(), onFailedToRetrieveDictionary(dictionaryRetriever.getLanguage()));
-        };
+        dictionaryRetrievers.forEach(dictionaryRetriever -> getDictionary(dictionaryRetriever)
+                .ifPresentOrElse(
+                        onSuccessfullyRetrievedDictionary(),
+                        onFailedToRetrieveDictionary(dictionaryRetriever.getLanguage())
+                ));
     }
 
     private Consumer<Dictionary> onSuccessfullyRetrievedDictionary() {
-        return retrievedDictionary -> {
-            dictionaryRepository.findByLanguage(retrievedDictionary.getLanguage())
-                    .ifPresentOrElse(foundDictionary -> {
-                        if (foundDictionary.shouldBeOverwrittenBy(retrievedDictionary)) {
-                            dictionaryRepository.save(Dictionary.withStringsWithAssembledWordsDictionary(retrievedDictionary));
-                            log.info("{} dictionary updated", foundDictionary.getLanguage());
-                        } else {
-                            log.info("{} dictionary is up-to-date. No update required.", retrievedDictionary.getLanguage());
-                        }
-                    }, () -> {
-                        dictionaryRepository.save(Dictionary.withStringsWithAssembledWordsDictionary(retrievedDictionary));
-                        log.info("{} dictionary saved", retrievedDictionary.getLanguage());
-                    });
+        return retrievedDictionary -> dictionaryRepository.findByLanguage(retrievedDictionary.getLanguage())
+                .ifPresentOrElse(
+                        onFoundDictionaryByLanguage(retrievedDictionary),
+                        onNotFoundDictionaryByLanguage(retrievedDictionary)
+                );
+    }
+
+    private Consumer<Dictionary> onFoundDictionaryByLanguage(Dictionary retrievedDictionary) {
+        return foundDictionary -> {
+            if (foundDictionary.shouldBeOverwrittenBy(retrievedDictionary)) {
+                updateDictionary(retrievedDictionary);
+            } else {
+                log.info("{} dictionary is up-to-date. No update required.", retrievedDictionary.getLanguage());
+            }
         };
     }
 
-    private Runnable onFailedToRetrieveDictionary(DictionaryLanguage language) {
+    private void updateDictionary(Dictionary retrievedDictionary) {
+        dictionaryRepository.save(Dictionary.withAnagramsFromString(retrievedDictionary));
+        log.info("{} dictionary updated", retrievedDictionary.getLanguage());
+    }
+
+    private Runnable onNotFoundDictionaryByLanguage(Dictionary retrievedDictionary) {
+        return () -> {
+            dictionaryRepository.save(Dictionary.withAnagramsFromString(retrievedDictionary));
+            log.info("{} dictionary saved", retrievedDictionary.getLanguage());
+        };
+    }
+
+    private Runnable onFailedToRetrieveDictionary(Language language) {
         return () -> log.info("Dictionary not persisted - Failed to retrieve {} dictionary", language);
     }
 
@@ -53,7 +61,7 @@ public class DictionaryDomainService {
         try {
             return Optional.of(dictionaryRetriever.getDictionary());
         } catch (DictionaryException e) {
-            log.info(e.getCause().toString());
+            log.info(e.details());
             return Optional.empty();
         }
     }

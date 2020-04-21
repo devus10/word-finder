@@ -1,6 +1,6 @@
 package com.pakisoft.wordfinder.domain.word;
 
-import com.pakisoft.wordfinder.domain.dictionary.DictionaryLanguage;
+import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,19 +14,19 @@ public class WordDomainService implements WordService {
 
     @Override
     public Word find(String string, String language) {
-        Set<String> assembledWords = getAssembledWordsFrom(string, language);
+        Set<String> assembledWords = getDictionaryAnagramsFrom(string, language);
         return Word.create(string, assembledWords);
     }
 
-    private Set<String> getAssembledWordsFrom(String string, String language) {
-        DictionaryLanguage dictionaryLanguage = findDictionaryLanguage(language);
-        return dictionaryRepository.findByLanguage(dictionaryLanguage)
-                .orElseThrow(() -> new IllegalStateException(String.format("No dictionary for language '%s' found.", language)))
+    private Set<String> getDictionaryAnagramsFrom(String string, String languageCode) {
+        Language language = findDictionaryLanguage(languageCode);
+        return dictionaryRepository.findByLanguage(language)
+                .orElseThrow(() -> new IllegalStateException(String.format("No dictionary for language '%s' found.", languageCode)))
                 .findWordsAssembledFrom(string);
     }
 
-    private DictionaryLanguage findDictionaryLanguage(String language) {
-        return DictionaryLanguage.findByCode(language)
+    private Language findDictionaryLanguage(String language) {
+        return Language.findByCode(language)
                 .orElseThrow(() -> new IllegalStateException("Language not found"));
     }
 }

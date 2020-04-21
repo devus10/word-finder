@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-class HtmlDocumentFetcher {
+public class HtmlDocumentFetcher {
 
     Document getDocument(String url) throws IOException {
         return Jsoup.connect(url).get();

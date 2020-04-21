@@ -1,5 +1,7 @@
 package com.pakisoft.wordfinder.domain.word;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -8,31 +10,26 @@ import java.util.Set;
 
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Word {
 
-    private final String textString;
+    private final String string;
     private final Boolean existsInDictionary;
-    private final Set<String> assembledDictionaryWords;
+    private final Set<String> stringDictionaryAnagrams;
 
-    public static Word create(String string, Set<String> assembledDictionaryWords) {
-        Set<String> words = getOrEmptySet(assembledDictionaryWords);
-        boolean exists = wordIsInAssembledWords(string, words);
+    public static Word create(String string, Set<String> dictionaryAnagrams) {
+        Set<String> words = getOrEmptySet(dictionaryAnagrams);
+        boolean exists = stringIsInAnagrams(string, words);
 
         return new Word(string, exists, words);
     }
 
-    private static Set<String> getOrEmptySet(Set<String> assembledDictionaryWords) {
-        return assembledDictionaryWords != null ? assembledDictionaryWords : Collections.emptySet();
+    private static Set<String> getOrEmptySet(Set<String> dictionaryAnagrams) {
+        return dictionaryAnagrams != null ? dictionaryAnagrams : Collections.emptySet();
     }
 
-    private static boolean wordIsInAssembledWords(String string, Set<String> words) {
-        return words.stream()
+    private static boolean stringIsInAnagrams(String string, Set<String> dictionaryAnagrams) {
+        return dictionaryAnagrams.stream()
                 .anyMatch(word -> word.equalsIgnoreCase(string));
-    }
-
-    private Word(String textString, Boolean existsInDictionary, Set<String> assembledDictionaryWords) {
-        this.textString = textString;
-        this.existsInDictionary = existsInDictionary;
-        this.assembledDictionaryWords = assembledDictionaryWords;
     }
 }

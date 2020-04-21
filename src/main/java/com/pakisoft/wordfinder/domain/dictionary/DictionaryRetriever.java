@@ -1,7 +1,7 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
-import com.pakisoft.wordfinder.domain.port.secondary.FailedWordsRetrievingException;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
+import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever.FailedWordsRetrievingException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,15 +11,15 @@ import java.util.Set;
 @Getter
 public abstract class DictionaryRetriever {
 
-    private final Set<WordsRetriever> wordsRetrievers;
-    private final DictionaryLanguage language;
+    private WordsRetriever wordsRetriever;
+    private final Language language;
 
-    protected Dictionary getDictionary() throws DictionaryException {
-        return wordsRetrievers.stream()
-                .filter(wordsRetriever -> language.equals(wordsRetriever.getLanguage()))
-                .findFirst()
-                .map(wordsRetriever -> Dictionary.create(language, getWords(wordsRetriever)))
-                .orElseThrow(() -> new DictionaryException("Unable to create dictionary"));
+    public void initializeWordsRetriever(WordsRetriever wordsRetriever) {
+        this.wordsRetriever = wordsRetriever;
+    }
+
+    Dictionary getDictionary() throws DictionaryException {
+        return Dictionary.create(language, getWords(wordsRetriever));
     }
 
     private Set<String> getWords(WordsRetriever wordsRetriever) {

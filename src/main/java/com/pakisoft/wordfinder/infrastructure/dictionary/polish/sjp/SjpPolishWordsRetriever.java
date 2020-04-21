@@ -1,9 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp;
 
-import com.pakisoft.wordfinder.domain.dictionary.DictionaryLanguage;
-import com.pakisoft.wordfinder.domain.port.secondary.FailedWordsRetrievingException;
-import com.pakisoft.wordfinder.infrastructure.dictionary.FileReader;
-import com.pakisoft.wordfinder.infrastructure.dictionary.FileUtil;
+import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.PolishWordsRetriever;
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.ZipFile;
@@ -17,7 +14,6 @@ import org.springframework.util.ResourceUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -62,12 +58,12 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     @Override
-    public DictionaryLanguage getLanguage() {
-        return DictionaryLanguage.POLISH;
+    public Language getLanguage() {
+        return Language.POLISH;
     }
 
-    public Path createTargetDirectoryIfNotExists() throws IOException {
-        return Files.createDirectories(Paths.get(targetDirectory));
+    private void createTargetDirectoryIfNotExists() throws IOException {
+        Files.createDirectories(Paths.get(targetDirectory));
     }
 
     private void downloadAndExtractDictionaryFileIfNecessary() throws IOException {
@@ -124,7 +120,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
         return dictionaryUrl + sjpZipFileName;
     }
 
-    public void scrapZipFileNameFromSjpWebPage() throws IOException, NoSuchElementException {
+    private void scrapZipFileNameFromSjpWebPage() throws IOException, NoSuchElementException {
         sjpZipFileName = htmlDocumentFetcher.getDocument(dictionaryUrl)
                 .getElementsByAttributeValueEnding("href", ".zip").stream()
                 .findAny()
