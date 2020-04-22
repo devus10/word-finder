@@ -4,9 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockClassRule
 import com.pakisoft.wordfinder.common.FunctionalTest
 import org.hamcrest.Matchers
 import org.junit.ClassRule
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.context.support.TestPropertySourceUtils
@@ -20,12 +18,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.ok
 import static com.github.tomakehurst.wiremock.client.WireMock.okForContentType
 import static io.restassured.RestAssured.when
 import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.hasItems
+import static org.hamcrest.Matchers.hasSize
 
 @FunctionalTest(initializers = PropertiesOverrider)
 class WordFinderFT extends Specification {
-
-    @Autowired
-    ApplicationContext context
 
     @LocalServerPort
     int port
@@ -47,8 +44,8 @@ class WordFinderFT extends Specification {
                 statusCode(200).
                 body('textString', equalTo('pako'),
                         'existsInDictionary', equalTo(true),
-                        'dictionaryAnagrams', Matchers.hasSize(3),
-                        'dictionaryAnagrams', Matchers.hasItems('pako', 'kapo', 'okap')
+                        'dictionaryAnagrams', hasSize(3),
+                        'dictionaryAnagrams', hasItems('pako', 'kapo', 'okap')
                 )
 
         cleanup:
@@ -68,14 +65,17 @@ class WordFinderFT extends Specification {
                                 <a href="sjp.zip">dictionary</a>
                             </body>
                         </html>
-                        """))
+                        """)
+                )
         )
     }
 
     static stubbedSjpZipDownload() {
         wireMockRule.stubFor(get("/polish/sjp.zip")
-                .willReturn(ok()
-                        .withBodyFile("sjp.zip"))
+                .willReturn(
+                        ok()
+                        .withBodyFile("sjp.zip")
+                )
         )
     }
 
@@ -88,7 +88,7 @@ class WordFinderFT extends Specification {
         @Override
         void initialize(ConfigurableApplicationContext applicationContext) {
             TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-                    applicationContext, "dictionary.polish.url=${wireMockRule.baseUrl()}/polish");
+                    applicationContext, "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish");
         }
     }
 }

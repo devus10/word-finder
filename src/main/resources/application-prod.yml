@@ -2,5 +2,6 @@ dictionary-target-directory: dictionaries
 
 dictionary:
   polish:
-    url: https://sjp.pl/slownik/odmiany
     target-dir: ${dictionary-target-directory}/polish
+    sjp:
+      url: https://sjp.pl/slownik/odmiany

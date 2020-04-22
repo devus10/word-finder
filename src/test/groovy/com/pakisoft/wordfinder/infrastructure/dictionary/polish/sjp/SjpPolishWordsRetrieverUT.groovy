@@ -16,7 +16,7 @@ import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX
 
 class SjpPolishWordsRetrieverUT extends Specification {
 
-    private static final URL = 'sjp.pl/'
+    private static final URL = 'sjp.pl'
     private static final SJP_ZIP_FILE_NAME = 'sjp_testdictionary.zip'
     private static final DICTIONARIES_DIRECTORY = 'test_dictionaries'
 

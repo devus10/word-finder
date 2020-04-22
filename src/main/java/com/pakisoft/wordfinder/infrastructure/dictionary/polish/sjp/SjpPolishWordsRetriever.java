@@ -34,7 +34,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     private final HtmlDocumentFetcher htmlDocumentFetcher;
     private final FileUtil fileUtil;
 
-    @Value("${dictionary.polish.url}")
+    @Value("${dictionary.polish.sjp.url}")
     private String dictionaryUrl;
     @Value("${dictionary.polish.target-dir}")
     private String targetDirectory;
