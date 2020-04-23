@@ -1,3 +1,16 @@
+buildscript {
+	ext {
+		groovyVersion = '2.5.10'
+		restAssuredVersion = '4.2.0'
+		springfoxVersion = '2.9.2'
+		spockVersion = '1.3-groovy-2.5'
+		wiremockVersion = '2.26.3'
+		jsoupVersion = '1.13.1'
+		zip4jVersion = '2.5.2'
+		reflectionsVersion = '0.9.12'
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -21,22 +34,25 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.10', ext: 'pom'
-	compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
-	compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.5.2'
-	compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
+	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	compile "org.jsoup:jsoup:$jsoupVersion"
+	compile "net.lingala.zip4j:zip4j:$zip4jVersion"
+	compile "org.reflections:reflections:$reflectionsVersion"
+	compile "io.springfox:springfox-swagger2:$springfoxVersion"
+	compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
 	compileOnly 'org.projectlombok:lombok'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.3-groovy-2.5'
-	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
-	testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.26.3'
-	testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
-	compile group: 'io.rest-assured', name: 'json-path', version: '4.2.0'
-	compile group: 'io.rest-assured', name: 'xml-path', version: '4.2.0'
-
+	testCompile "org.spockframework:spock-core:$spockVersion"
+	testCompile "org.spockframework:spock-spring:$spockVersion"
+	testCompile "com.github.tomakehurst:wiremock:$wiremockVersion"
+	testCompile "io.rest-assured:rest-assured:$restAssuredVersion"
+	testCompile "io.rest-assured:json-path:$restAssuredVersion"
+	testCompile "io.rest-assured:xml-path:$restAssuredVersion"
 
 }
 

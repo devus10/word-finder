@@ -77,7 +77,7 @@ class SjpPolishWordsRetrieverUT extends Specification {
         removeDictionariesDirectory()
     }
 
-    def "should throw exception when an error occured"() {
+    def "should throw exception when an error occurred"() {
         given: "that failed to get the HTML document of SJP"
         jsoupWebScraper.getDocument(retriever.dictionaryUrl) >> { throw new IOException("error")}
 

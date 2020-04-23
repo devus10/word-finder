@@ -2,5 +2,6 @@ dictionary-target-directory:
 
 dictionary:
   polish:
-    url:
     target-dir:
+    sjp:
+      url:

@@ -2,5 +2,6 @@ dictionary-target-directory: test_dictionaries
 
 dictionary:
   polish:
-    url: DEFINE_IN_TESTS
     target-dir: ${dictionary-target-directory}/polish
+    sjp:
+      url: DEFINE_IN_TEST
