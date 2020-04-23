@@ -1,5 +1,6 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
+import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.domain.util.StringUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

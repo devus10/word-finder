@@ -1,6 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp;
 
-import com.pakisoft.wordfinder.domain.dictionary.Language;
+import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.PolishWordsRetriever;
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.ZipFile;

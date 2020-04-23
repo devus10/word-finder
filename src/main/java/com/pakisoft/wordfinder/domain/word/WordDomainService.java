@@ -1,6 +1,6 @@
 package com.pakisoft.wordfinder.domain.word;
 
-import com.pakisoft.wordfinder.domain.dictionary.Language;
+import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import lombok.RequiredArgsConstructor;

@@ -8,11 +8,18 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class DictionaryProcessInitializer {
 
+    private static final String EVERY_SATURDAY_MIDNIGHT = "0 0 0 * * SAT";
+
     private final Scheduler scheduler;
     private final DictionaryDomainService dictionaryDomainService;
 
     @PostConstruct
     public void initialize() {
-        scheduler.schedule(dictionaryDomainService::saveDictionaries);
+        dictionaryDomainService.saveDictionaries();
+
+        scheduler.schedule(
+                dictionaryDomainService::saveDictionaries,
+                EVERY_SATURDAY_MIDNIGHT
+        );
     }
 }

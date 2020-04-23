@@ -1,17 +1,17 @@
-package com.pakisoft.wordfinder.domain
+package unit.com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever
-import com.pakisoft.wordfinder.domain.dictionary.Language
+import com.pakisoft.wordfinder.domain.language.Language
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
 import spock.lang.Specification
 
-import static com.pakisoft.wordfinder.domain.dictionary.Language.ENGLISH
-import static com.pakisoft.wordfinder.domain.dictionary.Language.FRENCH
-import static com.pakisoft.wordfinder.domain.dictionary.Language.POLISH
-import static com.pakisoft.wordfinder.domain.dictionary.Language.RUSSIAN
+import static com.pakisoft.wordfinder.domain.language.Language.ENGLISH
+import static com.pakisoft.wordfinder.domain.language.Language.FRENCH
+import static com.pakisoft.wordfinder.domain.language.Language.POLISH
+import static com.pakisoft.wordfinder.domain.language.Language.RUSSIAN
 
 class DomainSpecification extends Specification {
 

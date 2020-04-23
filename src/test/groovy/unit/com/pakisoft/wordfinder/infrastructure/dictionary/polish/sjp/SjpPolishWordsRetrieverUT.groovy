@@ -1,6 +1,11 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
+package unit.com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
 
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
+import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileReader
+import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileUtil
+import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.HtmlDocumentFetcher
+import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.SjpPolishWordsRetriever
+import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.TextFileReader
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements

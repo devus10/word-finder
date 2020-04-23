@@ -27,7 +27,7 @@ public class WordRestController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully retrieved the word")
     })
-    private WordView getWord(
+    public WordView getWord(
             @ApiParam(value = "dictionary language", required = true) @PathVariable String language,
             @ApiParam(value = "string to search for in dictionary", required = true) @PathVariable String string
     ) {

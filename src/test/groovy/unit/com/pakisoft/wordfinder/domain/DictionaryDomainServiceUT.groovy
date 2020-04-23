@@ -1,10 +1,12 @@
-package com.pakisoft.wordfinder.domain
+package unit.com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService
-import com.pakisoft.wordfinder.domain.dictionary.Language
+import com.pakisoft.wordfinder.domain.language.Language
 
-import static com.pakisoft.wordfinder.domain.dictionary.Language.*
+import static com.pakisoft.wordfinder.domain.language.Language.ENGLISH
+import static com.pakisoft.wordfinder.domain.language.Language.POLISH
+import static com.pakisoft.wordfinder.domain.language.Language.RUSSIAN
 
 class DictionaryDomainServiceUT extends DomainSpecification {
 

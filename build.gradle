@@ -16,6 +16,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'groovy'
+	id 'idea'
 }
 
 group = 'com.pakisoft'
@@ -59,3 +60,20 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+sourceSets {
+	test {
+		groovy {
+			srcDir 'src/test/groovy'
+		}
+	}
+}
+
+idea {
+	module {
+		testSourceDirs += file('src/test/groovy')
+		testSourceDirs += file('src/test/groovy/unit')
+		testSourceDirs += file('src/test/groovy/functional')
+	}
+}
+

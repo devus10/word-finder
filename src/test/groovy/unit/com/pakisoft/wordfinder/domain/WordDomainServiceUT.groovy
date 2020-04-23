@@ -1,4 +1,5 @@
-package com.pakisoft.wordfinder.domain
+package unit.com.pakisoft.wordfinder.domain
+
 
 import com.pakisoft.wordfinder.domain.word.Word
 import com.pakisoft.wordfinder.domain.word.WordDomainService

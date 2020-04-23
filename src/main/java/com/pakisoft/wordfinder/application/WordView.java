@@ -3,16 +3,16 @@ package com.pakisoft.wordfinder.application;
 import com.pakisoft.wordfinder.domain.word.Word;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 import java.util.Set;
 
-@RequiredArgsConstructor
-@Getter
+@Value
 class WordView {
 
-    private final String textString;
-    private final Boolean existsInDictionary;
-    private final Set<String> dictionaryAnagrams;
+    String textString;
+    Boolean existsInDictionary;
+    Set<String> dictionaryAnagrams;
 
     static WordView from(Word word) {
         return new WordView(word);

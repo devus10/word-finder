@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.domain.dictionary;
+package com.pakisoft.wordfinder.domain.language;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

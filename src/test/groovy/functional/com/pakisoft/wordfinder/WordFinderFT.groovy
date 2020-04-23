@@ -1,8 +1,7 @@
 package com.pakisoft.wordfinder
 
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
-import com.pakisoft.wordfinder.common.FunctionalTest
-import org.hamcrest.Matchers
+import com.pakisoft.wordfinder.annotation.FunctionalTest
 import org.junit.ClassRule
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextInitializer
@@ -40,7 +39,7 @@ class WordFinderFT extends Specification {
         expect:
         when().
                 get(url('pako')).
-        then().
+                then().
                 statusCode(200).
                 body('textString', equalTo('pako'),
                         'existsInDictionary', equalTo(true),
@@ -74,7 +73,7 @@ class WordFinderFT extends Specification {
         wireMockRule.stubFor(get("/polish/sjp.zip")
                 .willReturn(
                         ok()
-                        .withBodyFile("sjp.zip")
+                                .withBodyFile("sjp.zip")
                 )
         )
     }

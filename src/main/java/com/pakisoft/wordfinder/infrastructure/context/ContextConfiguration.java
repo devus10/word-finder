@@ -41,7 +41,7 @@ public class ContextConfiguration {
     }
 
     @Bean
-    public DictionaryProcessInitializer dictionaryProcessIntitializer(Scheduler scheduler, DictionaryDomainService dictionaryDomainService) {
+    public DictionaryProcessInitializer dictionaryProcessInitializer(Scheduler scheduler, DictionaryDomainService dictionaryDomainService) {
         return new DictionaryProcessInitializer(scheduler, dictionaryDomainService);
     }
 

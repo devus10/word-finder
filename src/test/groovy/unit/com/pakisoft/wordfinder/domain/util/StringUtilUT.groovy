@@ -1,5 +1,6 @@
-package com.pakisoft.wordfinder.domain.util
+package unit.com.pakisoft.wordfinder.domain.util
 
+import com.pakisoft.wordfinder.domain.util.StringUtil
 import spock.lang.Specification
 
 class StringUtilUT extends Specification {

@@ -1,7 +1,7 @@
 package com.pakisoft.wordfinder.domain.configuration;
 
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
-import com.pakisoft.wordfinder.domain.dictionary.Language;
+import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
