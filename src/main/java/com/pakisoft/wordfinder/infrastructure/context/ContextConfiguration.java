@@ -2,8 +2,9 @@ package com.pakisoft.wordfinder.infrastructure.context;
 
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService;
-import com.pakisoft.wordfinder.domain.dictionary.DictionaryProcessInitializer;
+import com.pakisoft.wordfinder.application.dictionary.DictionaryProcessInitializer;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
+import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
@@ -36,13 +37,8 @@ public class ContextConfiguration {
     }
 
     @Bean
-    public DictionaryDomainService dictionaryService(DictionaryRepository dictionaryRepository) {
-        return new DictionaryDomainService(dictionaryRepository, dictionaryRetrievers());
-    }
-
-    @Bean
-    public DictionaryProcessInitializer dictionaryProcessInitializer(Scheduler scheduler, DictionaryDomainService dictionaryDomainService) {
-        return new DictionaryProcessInitializer(scheduler, dictionaryDomainService);
+    public DictionaryService dictionaryService(DictionaryRepository dictionaryRepository, Scheduler scheduler) {
+        return new DictionaryDomainService(dictionaryRepository, dictionaryRetrievers(), scheduler);
     }
 
     private Set<DictionaryRetriever> dictionaryRetrievers() {

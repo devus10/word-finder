@@ -1,8 +1,6 @@
-package com.pakisoft.wordfinder.application;
+package com.pakisoft.wordfinder.application.word;
 
 import com.pakisoft.wordfinder.domain.word.Word;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.util.Set;

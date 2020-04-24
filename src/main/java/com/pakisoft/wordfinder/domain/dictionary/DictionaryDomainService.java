@@ -1,7 +1,9 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
 import com.pakisoft.wordfinder.domain.language.Language;
+import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
+import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,12 +13,23 @@ import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DictionaryDomainService {
+public class DictionaryDomainService implements DictionaryService {
+
+    private static final String EVERY_SATURDAY_MIDNIGHT = "0 0 0 * * SAT";
 
     private final DictionaryRepository dictionaryRepository;
     private final Set<DictionaryRetriever> dictionaryRetrievers;
+    private final Scheduler scheduler;
 
-    public void saveDictionaries() {
+    public void saveAndScheduleSaving() {
+        saveDictionaries();
+        scheduler.schedule(
+                this::saveDictionaries,
+                EVERY_SATURDAY_MIDNIGHT
+        );
+    }
+
+    private void saveDictionaries() {
         dictionaryRetrievers.forEach(dictionaryRetriever -> getDictionary(dictionaryRetriever)
                 .ifPresentOrElse(
                         onSuccessfullyRetrievedDictionary(),

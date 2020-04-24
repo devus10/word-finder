@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.application;
+package com.pakisoft.wordfinder.application.word;
 
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import io.swagger.annotations.Api;

@@ -1,4 +1,4 @@
-package unit.com.pakisoft.wordfinder.domain
+package com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService
@@ -8,19 +8,21 @@ import static com.pakisoft.wordfinder.domain.language.Language.ENGLISH
 import static com.pakisoft.wordfinder.domain.language.Language.POLISH
 import static com.pakisoft.wordfinder.domain.language.Language.RUSSIAN
 
-class DictionaryDomainServiceUT extends DomainSpecification {
+class DictionaryDomainUT extends DomainSpecification {
 
     def dictionaryRepository = dictionaryRepository()
+    def scheduler = scheduler()
     def dictionaryService = new DictionaryDomainService(
             dictionaryRepository,
-            dictionaryRetrievers()
+            dictionaryRetrievers(),
+            scheduler
     )
 
     Set<Dictionary> dictionaries = []
 
     def "should save the dictionaries"() {
-        when: 'saving dictionaries'
-        dictionaryService.saveDictionaries()
+        when: 'saving and scheduling dictionaries save'
+        dictionaryService.saveAndScheduleSaving()
 
         then: 'retrieved dictionaries are saved'
         2 * dictionaryRepository.save(_ as Dictionary) >> { Dictionary d -> dictionaries.add(d) }
@@ -60,6 +62,9 @@ class DictionaryDomainServiceUT extends DomainSpecification {
         englishAnagrams['acr'] == ['acr', 'car'] as Set
         englishAnagrams['emor'] == ['more', 'Rome', 'rome'] as Set
         englishAnagrams['bloo'] == ['bool'] as Set
+
+        and: 'dictionaries save was scheduled'
+        1 * scheduler.schedule(_ as Runnable, '0 0 0 * * SAT')
     }
 
     private dictionary(Language language) {

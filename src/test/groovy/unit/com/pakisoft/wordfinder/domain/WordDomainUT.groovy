@@ -1,10 +1,9 @@
-package unit.com.pakisoft.wordfinder.domain
-
+package com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.word.Word
 import com.pakisoft.wordfinder.domain.word.WordDomainService
 
-class WordDomainServiceUT extends DomainSpecification {
+class WordDomainUT extends DomainSpecification {
 
     def wordService = new WordDomainService(dictionaryRepository())
 
