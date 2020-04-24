@@ -14,8 +14,8 @@ public class WordDomainService implements WordService {
 
     @Override
     public Word find(String string, String language) {
-        Set<String> assembledWords = getDictionaryAnagramsFrom(string, language);
-        return Word.create(string, assembledWords);
+        var dictionaryAnagrams = getDictionaryAnagramsFrom(string, language);
+        return Word.create(string, dictionaryAnagrams);
     }
 
     private Set<String> getDictionaryAnagramsFrom(String string, String languageCode) {
