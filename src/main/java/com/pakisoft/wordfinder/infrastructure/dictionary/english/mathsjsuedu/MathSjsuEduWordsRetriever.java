@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsedu;
+package com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsuedu;
 
 import com.pakisoft.wordfinder.infrastructure.dictionary.english.EnglishWordsRetriever;
 import lombok.RequiredArgsConstructor;

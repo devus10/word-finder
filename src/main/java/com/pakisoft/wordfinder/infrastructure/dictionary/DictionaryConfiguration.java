@@ -1,8 +1,8 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary;
 
 import com.pakisoft.wordfinder.infrastructure.dictionary.english.EnglishWordsRetriever;
-import com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsedu.MathSjsuEduClient;
-import com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsedu.MathSjsuEduWordsRetriever;
+import com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsuedu.MathSjsuEduClient;
+import com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsuedu.MathSjsuEduWordsRetriever;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.PolishWordsRetriever;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileReader;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileUtil;

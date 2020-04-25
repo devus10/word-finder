@@ -2,11 +2,9 @@ package com.pakisoft.wordfinder
 
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
 import com.pakisoft.wordfinder.annotation.FunctionalTest
+import com.pakisoft.wordfinder.common.PropertiesInitializer
 import org.junit.ClassRule
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.context.ApplicationContextInitializer
-import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.test.context.support.TestPropertySourceUtils
 import org.springframework.util.FileSystemUtils
 import spock.lang.Specification
 
@@ -20,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItems
 import static org.hamcrest.Matchers.hasSize
 
-@FunctionalTest(initializers = PropertiesOverrider)
+@FunctionalTest(initializers = Initializer)
 class WordFinderFT extends Specification {
 
     @LocalServerPort
@@ -33,13 +31,14 @@ class WordFinderFT extends Specification {
         wireMockRule.start()
         stubbedSjpPage()
         stubbedSjpZipDownload()
+        stubbedMathSjsuEdu()
     }
 
     def "should get the word from polish dictionary after dictionary initialization"() {
         expect:
         when().
-                get(url('pako')).
-                then().
+                get(url('pl', 'pako')).
+        then().
                 statusCode(200).
                 body('textString', equalTo('pako'),
                         'existsInDictionary', equalTo(true),
@@ -51,8 +50,21 @@ class WordFinderFT extends Specification {
         removeDictionariesDirectory()
     }
 
-    def url(string) {
-        "http://localhost:$port/words/pl:$string"
+    def "should get the word from english dictionary after dictionary initialization"() {
+        expect:
+        when().
+                get(url('en', 'board')).
+        then().
+                statusCode(200).
+                body('textString', equalTo('board'),
+                        'existsInDictionary', equalTo(true),
+                        'dictionaryAnagrams', hasSize(1),
+                        'dictionaryAnagrams', hasItems('board')
+                )
+    }
+
+    def url(language, string) {
+        "http://localhost:$port/words/$language:$string"
     }
 
     static stubbedSjpPage() {
@@ -72,9 +84,14 @@ class WordFinderFT extends Specification {
     static stubbedSjpZipDownload() {
         wireMockRule.stubFor(get("/polish/sjp.zip")
                 .willReturn(
-                        ok()
-                                .withBodyFile("sjp.zip")
+                        ok().withBodyFile("sjp.zip")
                 )
+        )
+    }
+
+    static stubbedMathSjsuEdu() {
+        wireMockRule.stubFor(get("/english")
+                .willReturn(okForContentType("text/plain", 'and\nboard\ncar\n'))
         )
     }
 
@@ -82,12 +99,12 @@ class WordFinderFT extends Specification {
         FileSystemUtils.deleteRecursively(Paths.get('test_dictionaries'))
     }
 
-    static class PropertiesOverrider implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        @Override
-        void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-                    applicationContext, "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish");
+    static class Initializer extends PropertiesInitializer {
+        static {
+            PropertiesInitializer.properties = [
+                    "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish",
+                    "dictionary.english.math-sjsu-edu.url=${wireMockRule.baseUrl()}/english"
+            ]
         }
     }
 }

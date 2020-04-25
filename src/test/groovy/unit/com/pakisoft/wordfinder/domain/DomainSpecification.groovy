@@ -35,9 +35,8 @@ class DomainSpecification extends Specification {
     }
 
     Set<DictionaryRetriever> dictionaryRetrievers() {
-        def set = DomainConfiguration.instance.dictionaryRetrievers([polishWordsRetriever()] as Set)
+        def set = DomainConfiguration.instance.dictionaryRetrievers([polishWordsRetriever(), englishWordsRetriever()] as Set)
         set.addAll([
-                new EnglishDictionaryRetriever(),
                 new FrenchDictionaryRetriever(),
                 new RussianDictionaryRetriever()
         ])
@@ -46,14 +45,6 @@ class DomainSpecification extends Specification {
 
     def scheduler() {
         Mock(Scheduler)
-    }
-
-    private class EnglishDictionaryRetriever extends DictionaryRetriever {
-
-        EnglishDictionaryRetriever() {
-            super(ENGLISH)
-            this.initializeWordsRetriever(englishWordsRetriever())
-        }
     }
 
     private class FrenchDictionaryRetriever extends DictionaryRetriever {
