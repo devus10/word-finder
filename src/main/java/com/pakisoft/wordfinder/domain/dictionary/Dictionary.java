@@ -52,7 +52,7 @@ public class Dictionary {
     }
 
     private static Map<String, Set<String>> createAnagramsMap(Dictionary dictionary) {
-        log.info("Starting to create anagrams map for {} dictionary", dictionary);
+        log.info("Starting to create anagrams map for {}", dictionary);
         Map<String, Set<String>> map = dictionary.words.stream()
                 .collect(Collectors.toMap(StringUtil::lowerCasedAndSortedAlphabetically,
                         s -> new HashSet<>(),

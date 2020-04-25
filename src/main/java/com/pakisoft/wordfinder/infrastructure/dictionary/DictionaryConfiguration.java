@@ -15,4 +15,5 @@ public class DictionaryConfiguration {
     public PolishWordsRetriever sjpPolishWordsRetriever(FileReader fileReader, HtmlDocumentFetcher htmlDocumentFetcher, FileUtil fileUtil) {
         return new SjpPolishWordsRetriever(fileReader, htmlDocumentFetcher, fileUtil);
     }
+
 }

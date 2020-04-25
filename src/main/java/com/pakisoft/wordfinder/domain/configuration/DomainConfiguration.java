@@ -10,6 +10,7 @@ import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Constructor;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,8 +56,24 @@ public class DomainConfiguration {
     private WordsRetriever findMatchingWordsRetriever(Set<WordsRetriever> wordsRetrievers, Language language) {
         return wordsRetrievers.stream()
                 .filter(wordsRetriever -> wordsRetriever.getLanguage().equals(language))
-                .findFirst()
-                .orElseThrow(() -> new Error(String.format("Unable to find words retriever for %s language", language)));
+                .collect(oneRetriever(language));
+    }
+
+    private Collector<WordsRetriever, ?, WordsRetriever> oneRetriever(Language language) {
+        return Collectors.collectingAndThen(
+                Collectors.toList(),
+                list -> {
+                    if (list.isEmpty())
+                        throw new Error(s("Unable to find words retriever for %s language", language));
+                    if (list.size() > 1)
+                        throw new Error(s("There can be only one words retriever for %s langage, found: %s", language, list));
+                    return list.get(0);
+                }
+        );
+    }
+
+    private String s(String message, Object... args) {
+        return String.format(message, args);
     }
 
     private static class SingletonHelper {
