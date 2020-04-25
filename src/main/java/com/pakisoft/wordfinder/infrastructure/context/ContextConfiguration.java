@@ -2,7 +2,6 @@ package com.pakisoft.wordfinder.infrastructure.context;
 
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService;
-import com.pakisoft.wordfinder.application.dictionary.DictionaryProcessInitializer;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
 import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
