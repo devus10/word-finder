@@ -1,12 +1,12 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary.polish;
+package com.pakisoft.wordfinder.infrastructure.dictionary.english;
 
 import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 
-public interface PolishWordsRetriever extends WordsRetriever {
+public interface EnglishWordsRetriever extends WordsRetriever {
 
     @Override
     default Language getLanguage() {
-        return Language.POLISH;
+        return Language.ENGLISH;
     }
 }

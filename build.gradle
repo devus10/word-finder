@@ -8,6 +8,7 @@ buildscript {
 		jsoupVersion = '1.13.1'
 		zip4jVersion = '2.5.2'
 		reflectionsVersion = '0.9.12'
+		feignVersion = '2.2.2.RELEASE'
 	}
 }
 
@@ -35,6 +36,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile "org.springframework.cloud:spring-cloud-starter-openfeign:$feignVersion"
 	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 	compile "org.jsoup:jsoup:$jsoupVersion"
 	compile "net.lingala.zip4j:zip4j:$zip4jVersion"

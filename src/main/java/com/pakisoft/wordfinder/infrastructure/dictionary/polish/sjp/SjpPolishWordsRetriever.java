@@ -1,6 +1,5 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp;
 
-import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.infrastructure.dictionary.polish.PolishWordsRetriever;
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.ZipFile;
@@ -55,11 +54,6 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
             log.error(e.toString());
             throw new FailedWordsRetrievingException("Failed to retrieve words", e);
         }
-    }
-
-    @Override
-    public Language getLanguage() {
-        return Language.POLISH;
     }
 
     private void createTargetDirectoryIfNotExists() throws IOException {
