@@ -2,11 +2,11 @@ package com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService
-import com.pakisoft.wordfinder.domain.language.Language
+import com.pakisoft.wordfinder.domain.dictionary.Language
 
-import static com.pakisoft.wordfinder.domain.language.Language.ENGLISH
-import static com.pakisoft.wordfinder.domain.language.Language.POLISH
-import static com.pakisoft.wordfinder.domain.language.Language.RUSSIAN
+import static com.pakisoft.wordfinder.domain.dictionary.Language.ENGLISH
+import static com.pakisoft.wordfinder.domain.dictionary.Language.POLISH
+import static com.pakisoft.wordfinder.domain.dictionary.Language.RUSSIAN
 
 class DictionaryDomainUT extends DomainSpecification {
 
@@ -65,6 +65,11 @@ class DictionaryDomainUT extends DomainSpecification {
 
         and: 'dictionaries save was scheduled'
         1 * scheduler.schedule(_ as Runnable, '0 0 0 * * SAT')
+    }
+
+    def "should return supported dictionary languages"() {
+        expect:
+        dictionaryService.getSupportedLanguages() == [POLISH, ENGLISH] as Set
     }
 
     private dictionary(Language language) {

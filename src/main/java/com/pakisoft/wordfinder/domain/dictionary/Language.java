@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.domain.language;
+package com.pakisoft.wordfinder.domain.dictionary;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public enum Language {
 
     public static Optional<Language> findByCode(String languageCode) {
         return Stream.of(values())
-                .filter(dictionaryLanguage -> dictionaryLanguage.code.equals(languageCode))
+                .filter(language -> language.code.equals(languageCode))
                 .findAny();
     }
 }

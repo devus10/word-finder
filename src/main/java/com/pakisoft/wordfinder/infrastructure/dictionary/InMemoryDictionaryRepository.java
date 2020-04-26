@@ -1,7 +1,7 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary;
 
 import com.pakisoft.wordfinder.domain.dictionary.Dictionary;
-import com.pakisoft.wordfinder.domain.language.Language;
+import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 
 import java.util.HashSet;

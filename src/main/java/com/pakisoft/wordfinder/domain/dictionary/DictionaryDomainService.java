@@ -1,12 +1,13 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
-import com.pakisoft.wordfinder.domain.language.Language;
+import com.google.common.collect.Sets;
 import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -21,12 +22,18 @@ public class DictionaryDomainService implements DictionaryService {
     private final Set<DictionaryRetriever> dictionaryRetrievers;
     private final Scheduler scheduler;
 
+    @Override
     public void saveAndScheduleSaving() {
         saveDictionaries();
         scheduler.schedule(
                 this::saveDictionaries,
                 EVERY_SATURDAY_MIDNIGHT
         );
+    }
+
+    @Override
+    public Set<Language> getSupportedLanguages() {
+        return Sets.newHashSet(Language.ENGLISH, Language.POLISH);
     }
 
     private void saveDictionaries() {

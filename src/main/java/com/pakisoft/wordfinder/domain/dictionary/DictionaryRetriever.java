@@ -1,6 +1,5 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
-import com.pakisoft.wordfinder.domain.language.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever.FailedWordsRetrievingException;
 import lombok.Getter;

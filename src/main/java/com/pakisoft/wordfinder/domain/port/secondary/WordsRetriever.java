@@ -1,7 +1,7 @@
 package com.pakisoft.wordfinder.domain.port.secondary;
 
 import com.pakisoft.wordfinder.domain.DomainException;
-import com.pakisoft.wordfinder.domain.language.Language;
+import com.pakisoft.wordfinder.domain.dictionary.Language;
 
 import java.util.Set;
 
