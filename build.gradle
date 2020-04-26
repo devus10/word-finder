@@ -7,7 +7,7 @@ buildscript {
 		wiremockVersion = '2.26.3'
 		jsoupVersion = '1.13.1'
 		zip4jVersion = '2.5.2'
-		reflectionsVersion = '0.9.12'
+		reflectionsVersion = '0.9.9'
 		feignVersion = '2.2.2.RELEASE'
 	}
 }
