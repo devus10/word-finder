@@ -1,6 +1,6 @@
 package com.pakisoft.wordfinder.domain
 
-import com.pakisoft.wordfinder.domain.dictionary.Dictionary
+
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService
 import com.pakisoft.wordfinder.domain.dictionary.Language
 

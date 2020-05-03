@@ -2,7 +2,7 @@ package com.pakisoft.wordfinder.domain.word;
 
 import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
-import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -10,7 +10,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class WordDomainService implements WordService {
 
-    private final DictionaryRepository dictionaryRepository;
+    private final DictionaryWordFinder dictionaryWordFinder;
 
     @Override
     public Word find(String string, String language) {
@@ -20,9 +20,7 @@ public class WordDomainService implements WordService {
 
     private Set<String> getDictionaryAnagramsFrom(String string, String languageCode) {
         Language language = findDictionaryLanguage(languageCode);
-        return dictionaryRepository.findByLanguage(language)
-                .orElseThrow(() -> new IllegalStateException(String.format("No dictionary for '%s' language found.", language)))
-                .findWordsAssembledFrom(string);
+        return dictionaryWordFinder.find(language, string).getAnagrams();
     }
 
     private Language findDictionaryLanguage(String language) {

@@ -6,10 +6,10 @@ import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
 import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder;
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import com.pakisoft.wordfinder.domain.word.WordDomainService;
-import com.pakisoft.wordfinder.infrastructure.dictionary.InMemoryDictionaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,22 +25,22 @@ public class ContextConfiguration {
     private final DomainConfiguration domainConfiguration = DomainConfiguration.getInstance();
     private final Set<WordsRetriever> wordsRetrievers;
 
+//    @Bean
+//    public DictionaryRead dictionaryRead() {
+//        return new DictionaryReadImpl();
+//    }
+
     @Bean
-    public WordService wordService(DictionaryRepository dictionaryRepository) {
-        return new WordDomainService(dictionaryRepository);
+    public WordService wordService(DictionaryWordFinder dictionaryRead) {
+        return new WordDomainService(dictionaryRead);
     }
 
     @Bean
-    public DictionaryRepository dictionaryRepository() {
-        return new InMemoryDictionaryRepository();
+    public DictionaryService dictionaryService(Scheduler scheduler, DictionaryRepository dictionaryRepository) {
+        return new DictionaryDomainService(dictionaryRetrievers(dictionaryRepository), scheduler);
     }
 
-    @Bean
-    public DictionaryService dictionaryService(DictionaryRepository dictionaryRepository, Scheduler scheduler) {
-        return new DictionaryDomainService(dictionaryRepository, dictionaryRetrievers(), scheduler);
-    }
-
-    private Set<DictionaryRetriever> dictionaryRetrievers() {
-        return domainConfiguration.dictionaryRetrievers(wordsRetrievers);
+    private Set<DictionaryRetriever> dictionaryRetrievers(DictionaryRepository dictionaryRepository) {
+        return domainConfiguration.dictionaryRetrievers(wordsRetrievers, dictionaryRepository);
     }
 }

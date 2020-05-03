@@ -1,10 +1,8 @@
 package com.pakisoft.wordfinder.domain
 
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration
-import com.pakisoft.wordfinder.domain.dictionary.Dictionary
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever
 import com.pakisoft.wordfinder.domain.dictionary.Language
-import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
 import spock.lang.Specification

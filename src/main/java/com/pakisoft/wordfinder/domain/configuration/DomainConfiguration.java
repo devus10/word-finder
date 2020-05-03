@@ -2,6 +2,7 @@ package com.pakisoft.wordfinder.domain.configuration;
 
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
 import com.pakisoft.wordfinder.domain.dictionary.Language;
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -21,20 +22,20 @@ public class DomainConfiguration {
         return SingletonHelper.INSTANCE;
     }
 
-    public Set<DictionaryRetriever> dictionaryRetrievers(Set<WordsRetriever> wordsRetrievers) {
+    public Set<DictionaryRetriever> dictionaryRetrievers(Set<WordsRetriever> wordsRetrievers, DictionaryRepository dictionaryRepository) {
         return findDictionaryRetrieversClasses().stream()
                 .map(Class::getConstructors)
                 .map(Stream::of)
                 .map(constructors -> constructors.findAny().orElseThrow())
-                .map(constructor -> instantiateDictionaryRetriever(wordsRetrievers, constructor))
+                .map(constructor -> instantiateDictionaryRetriever(wordsRetrievers, dictionaryRepository, constructor))
                 .collect(Collectors.toSet());
     }
 
-    private DictionaryRetriever instantiateDictionaryRetriever(Set<WordsRetriever> wordsRetrievers, Constructor<?> constructor) {
+    private DictionaryRetriever instantiateDictionaryRetriever(Set<WordsRetriever> wordsRetrievers, DictionaryRepository dictionaryRepository, Constructor<?> constructor) {
         try {
             var dictionaryRetriever = (DictionaryRetriever) constructor.newInstance();
             var matchingWordsRetriever = findMatchingWordsRetriever(wordsRetrievers, dictionaryRetriever.getLanguage());
-            dictionaryRetriever.initializeWordsRetriever(matchingWordsRetriever);
+            dictionaryRetriever.initializeWordsRetriever(matchingWordsRetriever, dictionaryRepository);
             return dictionaryRetriever;
         } catch (Exception e) {
             throw new Error("Cannot instantiate dictionary retriever");
