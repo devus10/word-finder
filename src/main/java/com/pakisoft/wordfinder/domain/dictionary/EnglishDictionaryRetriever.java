@@ -1,8 +1,8 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
-public class EnglishDictionaryRetriever extends DictionaryRetriever {
+public class EnglishDictionaryRetriever {
 
-    public EnglishDictionaryRetriever() {
-        super(Language.ENGLISH);
-    }
+//    public EnglishDictionaryRetriever() {
+//        super(Language.ENGLISH);
+//    }
 }

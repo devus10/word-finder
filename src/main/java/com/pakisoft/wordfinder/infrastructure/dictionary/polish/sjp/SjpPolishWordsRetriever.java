@@ -95,26 +95,18 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     private Set<String> readWordsFromExtractedDictionaryFile() {
-//        ChronicleSet<String> words = null;
-//        try {
-//            words = ChronicleSet
-//                    .of(String.class)
-//                    .name("polish_dict")
-//                    .averageKey("blendziorowaty")
-//                    .entries(5_000_000)
-//                    .createPersistedTo(new File("words.dat"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        ChronicleSet<String> words = ChronicleSet.of(String.class)
+                    .name("polish_dict")
+                    .averageKey("blendziorowaty")
+                    .entries(5_000_000)
+                    .create();
 
-//        UnifiedSet<String> set = new UnifiedSet<>();
 
-        return fileReader.readLines(extractedDictionaryFilePath).stream()
+        fileReader.readLines(extractedDictionaryFilePath).stream()
                 .map(this::splitLineToStrings)
                 .flatMap(Collection::stream)
-//                .forEach(set::add);
-//        return set;
-                .collect(Collectors.toCollection(TreeSet::new));
+                .forEach(words::add);
+        return words;
     }
 
     private Set<String> splitLineToStrings(String line) {

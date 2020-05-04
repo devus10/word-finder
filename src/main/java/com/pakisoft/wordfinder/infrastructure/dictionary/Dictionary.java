@@ -3,6 +3,7 @@ package com.pakisoft.wordfinder.infrastructure.dictionary;
 import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
