@@ -1,6 +1,7 @@
 package com.pakisoft.wordfinder.domain.dictionary;
 
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository.Dictionary;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever;
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever.FailedWordsRetrievingException;
 import lombok.Getter;
@@ -23,14 +24,11 @@ public abstract class DictionaryRetriever {
         this.dictionaryRepository = dictionaryRepository;
     }
 
-    void saveDictionary() {
+    void saveDictionary() throws DictionaryException {
         var language = wordsRetriever.getLanguage();
         log.info("Started to save {} dictionary", language);
         dictionaryRepository.save(
-                new DictionaryRepository.Dictionary(
-                        language,
-                        getWords()
-                )
+                new Dictionary(language, getWords())
         );
         log.info("Finished to save {} dictionary", language);
     }

@@ -3,6 +3,8 @@ package com.pakisoft.wordfinder.domain
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever
 import com.pakisoft.wordfinder.domain.dictionary.Language
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository
+import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
 import spock.lang.Specification
@@ -14,26 +16,39 @@ import static com.pakisoft.wordfinder.domain.dictionary.Language.RUSSIAN
 
 class DomainSpecification extends Specification {
 
-    def dictionaryRepository() {
+    def dictionaryRepository = createDictionaryRepository()
+    def dictionaryWordFinder = createDictionaryWorFinder()
+
+    def dictionaries = []
+
+    private def createDictionaryRepository() {
         Mock(DictionaryRepository) {
-            save(_ as Dictionary) >> {}
-            findByLanguage(_ as Language) >> { Language language ->
-                switch (language) {
-                    case ENGLISH:
-                        return Optional.of(Dictionary.withAnagramsFromString(
-                                Dictionary.create(ENGLISH, ['acr', 'bool', 'car', 'more', 'rome', 'Rome'] as Set))
-                        )
-                    case RUSSIAN:
-                        return Optional.of(Dictionary.create(RUSSIAN, ['cyka'] as Set))
-                    case POLISH:
-                        return Optional.empty()
+            save(_ as DictionaryRepository.Dictionary) >> { DictionaryRepository.Dictionary d -> dictionaries << d }
+        }
+    }
+
+    private def createDictionaryWorFinder() {
+        Mock(DictionaryWordFinder) {
+            find(_ as Language, _ as String) >> { args ->
+                final word = args[1] as String
+                switch (word) {
+                    case 'rome':
+                        return new DictionaryWordFinder.DictionaryWord(word, ['more', 'Rome'] as Set)
+                    case 'qwe':
+                        return new DictionaryWordFinder.DictionaryWord(word, [] as Set)
+                    case 'tra':
+                        return new DictionaryWordFinder.DictionaryWord(word, ['art'] as Set)
                 }
             }
         }
     }
 
+
     Set<DictionaryRetriever> dictionaryRetrievers() {
-        def set = DomainConfiguration.instance.dictionaryRetrievers([polishWordsRetriever(), englishWordsRetriever()] as Set)
+        def set = DomainConfiguration.instance.dictionaryRetrievers(
+                [polishWordsRetriever(), englishWordsRetriever()] as Set,
+                dictionaryRepository
+        )
         set.addAll([
                 new FrenchDictionaryRetriever(),
                 new RussianDictionaryRetriever()
@@ -49,7 +64,7 @@ class DomainSpecification extends Specification {
 
         FrenchDictionaryRetriever() {
             super(FRENCH)
-            this.initializeWordsRetriever(frenchWordsRetriever())
+            this.initializeWordsRetriever(frenchWordsRetriever(), DomainSpecification.this.dictionaryRepository)
         }
     }
 
@@ -57,7 +72,7 @@ class DomainSpecification extends Specification {
 
         RussianDictionaryRetriever() {
             super(RUSSIAN)
-            this.initializeWordsRetriever(russianWordsRetriever())
+            this.initializeWordsRetriever(russianWordsRetriever(), DomainSpecification.this.dictionaryRepository)
         }
     }
 

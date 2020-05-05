@@ -1,4 +1,4 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
 import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.util.StringUtil;
@@ -15,7 +15,7 @@ import javax.persistence.InheritanceType;
 @Getter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
-abstract class DictionaryWordEntity {
+public abstract class DictionaryWordEntity {
 
     @Id
     @GeneratedValue
@@ -25,7 +25,7 @@ abstract class DictionaryWordEntity {
 
     private String sortedWord;
 
-    DictionaryWordEntity(String word) {
+    public DictionaryWordEntity(String word) {
         this.word = word;
         this.sortedWord = StringUtil.lowerCasedAndSortedAlphabetically(word);
     }

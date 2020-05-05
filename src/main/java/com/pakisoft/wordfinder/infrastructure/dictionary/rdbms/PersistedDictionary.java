@@ -1,9 +1,8 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
 import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -12,19 +11,23 @@ import java.util.stream.Collectors;
 import static com.pakisoft.wordfinder.domain.util.StringUtil.lowerCasedAndSortedAlphabetically;
 
 @RequiredArgsConstructor
-public abstract class Dictionary {
+public abstract class PersistedDictionary {
 
     protected final JpaDictionaryWordRepository jpaDictionaryWordRepository;
 
-    abstract void add(String word);
+    void add(String word) {
+        jpaDictionaryWordRepository.save(createDictionaryWord(word));
+    }
 
     boolean exists(String word) {
         return jpaDictionaryWordRepository.findByWord(word).isPresent();
     }
 
-    abstract boolean applicable(Language language);
+    protected abstract boolean applicable(Language language);
 
-    public DictionaryWordFinder.DictionaryWord find(String word) {
+    protected abstract DictionaryWordEntity createDictionaryWord(String word);
+
+    DictionaryWordFinder.DictionaryWord find(String word) {
         return new DictionaryWordFinder.DictionaryWord(
                 word,
                 allWordsAssembledFrom(lowerCasedAndSortedAlphabetically(word))

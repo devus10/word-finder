@@ -1,6 +1,5 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
-import com.pakisoft.wordfinder.domain.dictionary.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

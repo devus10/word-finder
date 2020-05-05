@@ -6,10 +6,10 @@ import spock.lang.Unroll
 
 class WordDomainUT extends DomainSpecification {
 
-    def wordService = new WordDomainService(dictionaryRepository())
+    def wordService = new WordDomainService(dictionaryWordFinder)
 
     @Unroll
-    def "the '#inputString' string #existsInDictionaryString in dictionary and has #found.stringDictionaryAnagrams anagrams"() {
+    def "'#inputString' string #existsInDictionaryString in dictionary and has #found.stringDictionaryAnagrams anagrams"() {
         expect:
         found == wordService.find(inputString, 'en')
 
@@ -17,11 +17,9 @@ class WordDomainUT extends DomainSpecification {
         found.existsInDictionary == existsInDictionary
 
         where:
-        inputString | found                                                | existsInDictionary | existsInDictionaryString
-        'car'       | Word.create('car', ['car', 'acr'] as Set)            | true               | 'exists'
-        'Rome'      | Word.create('Rome', ['more', 'rome', 'Rome'] as Set) | true               | 'exists'
-        'rome'      | Word.create('rome', ['more', 'rome', 'Rome'] as Set) | true               | 'exists'
-        'oobl'      | Word.create('oobl', ['bool'] as Set)                 | false              | 'does not exist'
-        'qwe'       | Word.create('qwe', [] as Set)                        | false              | 'does not exist'
+        inputString | found                                        | existsInDictionary | existsInDictionaryString
+        'rome'      | Word.create('rome', ['more', 'Rome'] as Set) | true               | 'exists'
+        'qwe'       | Word.create('qwe', [] as Set)                | false              | 'does not exist'
+        'tra'       | Word.create('tra', ['art'] as Set)           | false              | 'does not exist'
     }
 }

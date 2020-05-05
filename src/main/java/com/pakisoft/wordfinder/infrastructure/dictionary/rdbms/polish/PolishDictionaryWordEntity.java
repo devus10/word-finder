@@ -1,5 +1,6 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.polish;
 
+import com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.DictionaryWordEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;

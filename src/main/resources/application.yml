@@ -17,3 +17,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+hardware:
+  cpus: 4

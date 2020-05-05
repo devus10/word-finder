@@ -1,5 +1,6 @@
-package com.pakisoft.wordfinder.infrastructure.dictionary;
+package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.english;
 
+import com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.DictionaryWordEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @Table(name = "english_dictionary")
-public class EnglishDictionaryWordEntity extends DictionaryWordEntity {
+class EnglishDictionaryWordEntity extends DictionaryWordEntity {
 
     EnglishDictionaryWordEntity(String word) {
         super(word);

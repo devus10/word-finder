@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -20,7 +21,7 @@ public class DictionaryDomainService implements DictionaryService {
 
     @Override
     public void saveAndScheduleSaving() {
-        CompletableFuture.runAsync(this::saveDictionaries);
+        runAsync(this::saveDictionaries);
         scheduler.schedule(
                 this::saveDictionaries,
                 EVERY_SATURDAY_MIDNIGHT
@@ -33,6 +34,12 @@ public class DictionaryDomainService implements DictionaryService {
     }
 
     private void saveDictionaries() {
-        dictionaryRetrievers.forEach(DictionaryRetriever::saveDictionary);
+        dictionaryRetrievers.forEach(dictionaryRetriever -> {
+            try {
+                dictionaryRetriever.saveDictionary();
+            } catch (DictionaryException e) {
+                log.error("Failed to save {} dictionary", dictionaryRetriever.getLanguage());
+            }
+        });
     }
 }

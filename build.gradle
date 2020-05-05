@@ -10,15 +10,27 @@ buildscript {
 		reflectionsVersion = '0.9.9'
 		feignVersion = '2.2.2.RELEASE'
 	}
+
+	repositories {
+		mavenCentral()
+		//Needed only for SNAPSHOT versions
+		//maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+	}
+	dependencies {
+		classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.5.0'
+	}
 }
 
 plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+//	id 'info.solidsoft.pitest' version '1.5.0'
 	id 'java'
 	id 'groovy'
 	id 'idea'
 }
+
+apply plugin: 'info.solidsoft.pitest'
 
 group = 'com.pakisoft'
 version = '0.0.1-SNAPSHOT'
@@ -44,14 +56,10 @@ dependencies {
 	compile "org.reflections:reflections:$reflectionsVersion"
 	compile "io.springfox:springfox-swagger2:$springfoxVersion"
 	compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
-	compile group: 'org.eclipse.collections', name: 'eclipse-collections', version: '10.2.0'
 	compile group: 'net.openhft', name: 'chronicle-map', version: '3.19.4'
 	compileOnly 'org.projectlombok:lombok'
-	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
-
-	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'
+	testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
 
 
 	annotationProcessor 'org.projectlombok:lombok'
@@ -87,5 +95,12 @@ idea {
 		testSourceDirs += file('src/test/groovy/integration')
 		testSourceDirs += file('src/test/groovy/functional')
 	}
+}
+
+pitest {
+	targetClasses = ['com.pakisoft.wordfinder']  //by default "${project.group}.*"
+	threads = 4
+	outputFormats = ['XML', 'HTML']
+	timestampedReports = false
 }
 
