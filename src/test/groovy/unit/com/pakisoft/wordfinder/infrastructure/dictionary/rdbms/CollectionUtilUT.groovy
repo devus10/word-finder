@@ -1,5 +1,7 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms
 
+import groovy.sql.Sql
+import org.springframework.util.StopWatch
 import spock.lang.Specification
 
 class CollectionUtilUT extends Specification {

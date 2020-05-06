@@ -25,11 +25,6 @@ public class ContextConfiguration {
     private final DomainConfiguration domainConfiguration = DomainConfiguration.getInstance();
     private final Set<WordsRetriever> wordsRetrievers;
 
-//    @Bean
-//    public DictionaryRead dictionaryRead() {
-//        return new DictionaryReadImpl();
-//    }
-
     @Bean
     public WordService wordService(DictionaryWordFinder dictionaryRead) {
         return new WordDomainService(dictionaryRead);

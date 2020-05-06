@@ -1,6 +1,5 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
-import com.pakisoft.wordfinder.domain.dictionary.Language;
 import com.pakisoft.wordfinder.domain.util.StringUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

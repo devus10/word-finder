@@ -8,3 +8,15 @@ dictionary:
   english:
     math-sjsu-edu:
       url: DEFINE_IN_TEST
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: postgres
+    password: 889
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+hardware:
+  cpus: 2

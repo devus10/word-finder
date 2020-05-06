@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,7 +17,6 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
 
     private final HardwareProperties hardwareProperties;
     private final PersistedDictionaryFinder persistedDictionaryFinder;
-    private PersistedDictionary persistedDictionary;
     private ExecutorService executorService;
     private int threads;
 
@@ -29,21 +29,23 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
     }
 
     private void savePartitionedWordsInParallel(Dictionary dictionary) {
-        persistedDictionary = persistedDictionaryFinder.findBy(dictionary.getLanguage());
-        partitionedDictionaryWords(dictionary, threads).forEach(words -> {
-            executorService.execute(() -> save(words));
+        partitionedDictionaryWords(dictionary,threads).forEach(words -> {
+            executorService.execute(() -> {
+                var persistedDictionary = persistedDictionaryFinder.findBy(dictionary.getLanguage());
+                this.save(words, persistedDictionary);
+            });
         });
     }
 
-    private List<ArrayList<String>> partitionedDictionaryWords(Dictionary dictionary, int partitionSize) {
-        return CollectionUtil.partition(dictionary.getWords(), partitionSize);
+    private List<ArrayList<String>> partitionedDictionaryWords(Dictionary dictionary, int numberOfPartitions) {
+        return CollectionUtil.partition(dictionary.getWords(), numberOfPartitions);
     }
 
     private ExecutorService createExecutorService() {
         return Executors.newFixedThreadPool(threads);
     }
 
-    private void save(List<String> words) {
+    private void save(Collection<String> words, PersistedDictionary persistedDictionary) {
         words.forEach(word -> {
             if (!persistedDictionary.exists(word)) {
                 persistedDictionary.add(word);
