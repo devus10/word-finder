@@ -36,6 +36,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.6.RELEASE'
 	compile "org.springframework.cloud:spring-cloud-starter-openfeign:$feignVersion"
 	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 	compile "org.jsoup:jsoup:$jsoupVersion"
@@ -43,7 +44,9 @@ dependencies {
 	compile "org.reflections:reflections:$reflectionsVersion"
 	compile "io.springfox:springfox-swagger2:$springfoxVersion"
 	compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
+	compile group: 'net.openhft', name: 'chronicle-map', version: '3.19.4'
 	compileOnly 'org.projectlombok:lombok'
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
 
 	annotationProcessor 'org.projectlombok:lombok'
 
@@ -56,7 +59,9 @@ dependencies {
 	testCompile "io.rest-assured:rest-assured:$restAssuredVersion"
 	testCompile "io.rest-assured:json-path:$restAssuredVersion"
 	testCompile "io.rest-assured:xml-path:$restAssuredVersion"
-
+	testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
+	testCompile "org.testcontainers:spock:1.14.1"
+	testCompile "org.testcontainers:postgresql:1.14.1"
 }
 
 test {
@@ -79,4 +84,3 @@ idea {
 		testSourceDirs += file('src/test/groovy/functional')
 	}
 }
-

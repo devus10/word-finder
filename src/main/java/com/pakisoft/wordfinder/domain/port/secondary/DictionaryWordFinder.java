@@ -6,14 +6,15 @@ import lombok.Getter;
 
 import java.util.Set;
 
-public interface DictionaryRepository {
+public interface DictionaryWordFinder {
 
-    void save(Dictionary dictionary);
+    DictionaryWord find(Language language, String word);
 
     @AllArgsConstructor
     @Getter
-    class Dictionary {
-        private Language language;
-        private Set<String> words;
+    class DictionaryWord {
+
+        private String word;
+        private Set<String> anagrams;
     }
 }

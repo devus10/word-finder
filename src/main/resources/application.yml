@@ -8,3 +8,15 @@ dictionary:
   english:
     math-sjsu-edu:
       url:
+
+spring:
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto:
+
+hardware:
+  cpus:

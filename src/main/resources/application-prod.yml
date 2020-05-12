@@ -8,3 +8,15 @@ dictionary:
   english:
     math-sjsu-edu:
       url: http://www.math.sjsu.edu/~foster/dictionary.txt
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wordfinder
+    username: postgres
+    password: 889
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+hardware:
+  cpus: 4

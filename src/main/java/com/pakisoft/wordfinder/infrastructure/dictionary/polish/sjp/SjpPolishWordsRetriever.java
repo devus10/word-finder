@@ -4,6 +4,7 @@ import com.pakisoft.wordfinder.infrastructure.dictionary.polish.PolishWordsRetri
 import lombok.RequiredArgsConstructor;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import net.openhft.chronicle.set.ChronicleSet;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -86,10 +86,18 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     private Set<String> readWordsFromExtractedDictionaryFile() {
-        return fileReader.readLines(extractedDictionaryFilePath).stream()
+        ChronicleSet<String> words = ChronicleSet.of(String.class)
+                    .name("polish_dict")
+                    .averageKey("blendziorowaty")
+                    .entries(5_000_000)
+                    .create();
+
+
+        fileReader.readLines(extractedDictionaryFilePath).stream()
                 .map(this::splitLineToStrings)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toCollection(TreeSet::new));
+                .forEach(words::add);
+        return words;
     }
 
     private Set<String> splitLineToStrings(String line) {
