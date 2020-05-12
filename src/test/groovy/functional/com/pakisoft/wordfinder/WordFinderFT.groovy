@@ -2,7 +2,6 @@ package com.pakisoft.wordfinder
 
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
 import com.pakisoft.wordfinder.annotation.FunctionalTest
-import com.pakisoft.wordfinder.common.DbProperties
 import com.pakisoft.wordfinder.common.PropertiesInitializer
 import groovy.sql.Sql
 import org.junit.ClassRule

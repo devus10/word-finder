@@ -1,5 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
+import com.google.common.collect.Lists;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import com.pakisoft.wordfinder.infrastructure.HardwareProperties;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,8 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
         });
     }
 
-    private List<ArrayList<String>> partitionedDictionaryWords(Dictionary dictionary, int numberOfPartitions) {
-        return CollectionUtil.partition(dictionary.getWords(), numberOfPartitions);
+    private Iterable<List<String>> partitionedDictionaryWords(Dictionary dictionary, int partitionSize) {
+        return Lists.partition(Lists.newArrayList(dictionary.getWords()), partitionSize);
     }
 
     private ExecutorService createExecutorService() {
