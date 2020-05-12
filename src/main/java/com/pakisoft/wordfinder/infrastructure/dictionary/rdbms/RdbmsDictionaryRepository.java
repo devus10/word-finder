@@ -29,7 +29,7 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
     }
 
     private void savePartitionedWordsInParallel(Dictionary dictionary) {
-        partitionedDictionaryWords(dictionary,threads).forEach(words -> {
+        partitionedDictionaryWords(dictionary, threads).forEach(words -> {
             executorService.execute(() -> {
                 var persistedDictionary = persistedDictionaryFinder.findBy(dictionary.getLanguage());
                 this.save(words, persistedDictionary);

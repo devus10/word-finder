@@ -51,7 +51,6 @@ class DomainSpecification extends Specification {
         )
         set.addAll([
                 new FrenchDictionaryRetriever(),
-                new RussianDictionaryRetriever()
         ])
         set
     }
@@ -68,24 +67,12 @@ class DomainSpecification extends Specification {
         }
     }
 
-    private class RussianDictionaryRetriever extends DictionaryRetriever {
-
-        RussianDictionaryRetriever() {
-            super(RUSSIAN)
-            this.initializeWordsRetriever(russianWordsRetriever(), DomainSpecification.this.dictionaryRepository)
-        }
-    }
-
     private def polishWordsRetriever() {
         mockWordsRetriever(POLISH, ['auto', 'bok'])
     }
 
     private def englishWordsRetriever() {
-        mockWordsRetriever(ENGLISH, ['acr', 'bool', 'car', 'more', 'Rome', 'rome'])
-    }
-
-    private def russianWordsRetriever() {
-        mockWordsRetriever(RUSSIAN, ['blyat', 'cyka'])
+        mockWordsRetriever(ENGLISH, ['acr', 'bool', 'car'])
     }
 
     private def frenchWordsRetriever() {

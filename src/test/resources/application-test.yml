@@ -13,10 +13,13 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/testdb
     username: postgres
-    password: 889
+    password: passwd
   jpa:
     hibernate:
       ddl-auto: create
 
 hardware:
   cpus: 2
+
+testcontainers:
+  postgres-image: postgres:9.6.17-alpine

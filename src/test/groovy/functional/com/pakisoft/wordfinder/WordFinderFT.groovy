@@ -2,6 +2,7 @@ package com.pakisoft.wordfinder
 
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
 import com.pakisoft.wordfinder.annotation.FunctionalTest
+import com.pakisoft.wordfinder.common.DbProperties
 import com.pakisoft.wordfinder.common.PropertiesInitializer
 import groovy.sql.Sql
 import org.junit.ClassRule
@@ -17,6 +18,11 @@ import java.nio.file.Paths
 import static com.github.tomakehurst.wiremock.client.WireMock.get
 import static com.github.tomakehurst.wiremock.client.WireMock.ok
 import static com.github.tomakehurst.wiremock.client.WireMock.okForContentType
+import static com.pakisoft.wordfinder.common.AwaitUtil.waitFor
+import static com.pakisoft.wordfinder.common.DbProperties.DB_NAME
+import static com.pakisoft.wordfinder.common.DbProperties.PASSWORD
+import static com.pakisoft.wordfinder.common.DbProperties.POSTGRES_DOCKER_IMAGE
+import static com.pakisoft.wordfinder.common.DbProperties.USERNAME
 import static io.restassured.RestAssured.when
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItems
@@ -33,10 +39,10 @@ class WordFinderFT extends Specification {
     static wireMockRule = new WireMockClassRule(0)
 
     @Shared
-    static PostgreSQLContainer db = new PostgreSQLContainer('postgres:9.6.17-alpine')
-            .withDatabaseName("testdb")
-            .withUsername("postgres")
-            .withPassword("889")
+    static PostgreSQLContainer db = new PostgreSQLContainer(POSTGRES_DOCKER_IMAGE)
+            .withDatabaseName(DB_NAME)
+            .withUsername(USERNAME)
+            .withPassword(PASSWORD)
 
     static Sql sql
     static {
@@ -46,21 +52,6 @@ class WordFinderFT extends Specification {
         stubbedMathSjsuEdu()
         db.start()
         sql = Sql.newInstance(db.jdbcUrl, db.username, db.password)
-//        sql.execute "create sequence hibernate_sequence;"
-//        sql.execute """
-//         CREATE TABLE polish_dictionary (
-//            id int8 NOT NULL PRIMARY KEY,
-//            sorted_word VARCHAR(255),
-//            word VARCHAR(255)
-//         );
-//         """
-//        sql.execute """
-//         CREATE TABLE english_dictionary (
-//            id int8 NOT NULL PRIMARY KEY,
-//            sorted_word VARCHAR(255),
-//            word VARCHAR(255)
-//         );
-//         """
     }
 
     def cleanupSpec() {
@@ -69,9 +60,8 @@ class WordFinderFT extends Specification {
 
     def "should get the word from polish dictionary after dictionary initialization"() {
         expect:
-        Thread.sleep(5000)
-        def result = sql.rows "SELECT COUNT(*) FROM polish_dictionary"
-//        AwaitUtil.waitFor()
+        waitForTableCount('polish_dictionary', 7)
+
         when().
                 get(url('pl', 'pako')).
         then().
@@ -88,7 +78,7 @@ class WordFinderFT extends Specification {
 
     def "should get the word from english dictionary after dictionary initialization"() {
         expect:
-        Thread.sleep(1000)
+        waitForTableCount('english_dictionary', 3)
 
         when().
                 get(url('en', 'board')).
@@ -135,6 +125,14 @@ class WordFinderFT extends Specification {
 
     static void removeDictionariesDirectory() {
         FileSystemUtils.deleteRecursively(Paths.get('test_dictionaries'))
+    }
+
+    static void waitForTableCount(String table, count) {
+        waitFor({ getCountFrom(table) == count }, 1000)
+    }
+
+    static getCountFrom(String table) {
+        sql.rows("SELECT COUNT(*) FROM $table".toString()).get(0)['count']
     }
 
     static class Initializer extends PropertiesInitializer {
