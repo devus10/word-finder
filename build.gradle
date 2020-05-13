@@ -79,7 +79,6 @@ sourceSets {
 
 idea {
 	module {
-		testSourceDirs += file('src/test/groovy')
 		testSourceDirs += file('src/test/groovy/unit')
 		testSourceDirs += file('src/test/groovy/integration')
 		testSourceDirs += file('src/test/groovy/functional')
