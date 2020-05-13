@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class SjpPolishWordsRetriever implements PolishWordsRetriever {
 
-    private final static String WORDS_DELIMITER = ",";
-    private final static String DICTIONARY_FILE_NAME = "odm.txt";
+    private static final String WORDS_DELIMITER = ",";
+    private static final String DICTIONARY_FILE_NAME = "odm.txt";
 
     private Logger log = LoggerFactory.getLogger(SjpPolishWordsRetriever.class);
 
@@ -70,11 +70,11 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     private void setExtractedDictionaryFilePath() {
-        extractedDictionaryFilePath = targetDirectory + "/" + DICTIONARY_FILE_NAME;
+        extractedDictionaryFilePath = targetDirectory + DICTIONARY_FILE_NAME;
     }
 
     private void setTargetZipFilePath() {
-        targetZipFilePath = targetDirectory + "/" + sjpZipFileName;
+        targetZipFilePath = targetDirectory  + sjpZipFileName;
     }
 
     private boolean zipFileAlreadyExists() {
@@ -119,7 +119,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
     }
 
     private String getSjpZipFileUrl() {
-        return dictionaryUrl + "/" + sjpZipFileName;
+        return dictionaryUrl + sjpZipFileName;
     }
 
     private void scrapZipFileNameFromSjpWebPage() throws IOException, NoSuchElementException {

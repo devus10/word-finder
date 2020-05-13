@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 public class RdbmsDictionaryRepository implements DictionaryRepository {
 
     private final HardwareProperties hardwareProperties;
-    private final PersistedDictionaryFinder persistedDictionaryFinder;
+    private final PersistedDictionaryFinder<? extends DictionaryWordEntity> persistedDictionaryFinder;
     private ExecutorService executorService;
     private int threads;
 
@@ -29,12 +29,12 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
     }
 
     private void savePartitionedWordsInParallel(Dictionary dictionary) {
-        partitionedDictionaryWords(dictionary, threads).forEach(words -> {
+        partitionedDictionaryWords(dictionary, threads).forEach(words ->
             executorService.execute(() -> {
                 var persistedDictionary = persistedDictionaryFinder.findBy(dictionary.getLanguage());
                 this.save(words, persistedDictionary);
-            });
-        });
+            })
+        );
     }
 
     private Iterable<List<String>> partitionedDictionaryWords(Dictionary dictionary, int partitionSize) {
@@ -45,7 +45,7 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
         return Executors.newFixedThreadPool(threads);
     }
 
-    private void save(Collection<String> words, PersistedDictionary persistedDictionary) {
+    private void save(Collection<String> words, PersistedDictionary<? extends DictionaryWordEntity> persistedDictionary) {
         words.forEach(persistedDictionary::addIfMissing);
     }
 }

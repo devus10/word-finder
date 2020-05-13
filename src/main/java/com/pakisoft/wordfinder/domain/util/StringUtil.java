@@ -1,5 +1,9 @@
 package com.pakisoft.wordfinder.domain.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StringUtil {
 
     public static String lowerCasedAndSortedAlphabetically(String string) {

@@ -54,6 +54,10 @@ class WordFinderFT extends Specification {
         sql = Sql.newInstance(db.jdbcUrl, db.username, db.password)
     }
 
+    def cleanupSpec() {
+        removeDictionariesDirectory()
+    }
+
     def "should get the word from polish dictionary after dictionary initialization"() {
         expect:
         waitForTableCount('polish_dictionary', 7)
@@ -67,9 +71,6 @@ class WordFinderFT extends Specification {
                         'dictionaryAnagrams', hasSize(3),
                         'dictionaryAnagrams', hasItems('pako', 'kapo', 'okap')
                 )
-
-        cleanup:
-        removeDictionariesDirectory()
     }
 
     def "should get the word from english dictionary after dictionary initialization"() {
@@ -92,7 +93,7 @@ class WordFinderFT extends Specification {
     }
 
     static stubbedSjpPage() {
-        wireMockRule.stubFor(get("/polish")
+        wireMockRule.stubFor(get("/polish/")
                 .willReturn(okForContentType("text/html",
                         """
                         <html>
@@ -141,8 +142,8 @@ class WordFinderFT extends Specification {
     static class Initializer extends PropertiesInitializer {
         static {
             PropertiesInitializer.properties = [
-                    "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish",
-                    "dictionary.english.math-sjsu-edu.url=${wireMockRule.baseUrl()}/english",
+                    "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish/",
+                    "dictionary.english.math-sjsu-edu.url=${wireMockRule.baseUrl()}/english/",
                     "spring.datasource.url=${db.getJdbcUrl()}"
             ]
         }

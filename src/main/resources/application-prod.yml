@@ -6,7 +6,7 @@ dictionary:
   polish:
     target-dir: ${dictionary-target-directory}/polish
     sjp:
-      url: https://sjp.pl/slownik/odmiany
+      url: https://sjp.pl/slownik/odmiany/
   english:
     math-sjsu-edu:
       url: http://www.math.sjsu.edu/~foster/dictionary.txt

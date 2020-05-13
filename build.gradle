@@ -13,6 +13,7 @@ buildscript {
 }
 
 plugins {
+	id "org.sonarqube" version "2.8"
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
@@ -78,9 +79,18 @@ sourceSets {
 
 idea {
 	module {
-		testSourceDirs += file('src/test/groovy')
 		testSourceDirs += file('src/test/groovy/unit')
 		testSourceDirs += file('src/test/groovy/integration')
 		testSourceDirs += file('src/test/groovy/functional')
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "devus10_word-finder"
+		property "sonar.sources", "src/main"
+		property "sonar.tests", "src/test"
+		property "sonar.test.inclusions", "**/*test*/**"
+		property "sonar.exclusions", "**/*test*/**"
 	}
 }

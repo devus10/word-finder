@@ -25,7 +25,6 @@ public abstract class DictionaryRetriever {
     }
 
     void saveDictionary() throws DictionaryException {
-        var language = wordsRetriever.getLanguage();
         log.info("Started to save {} dictionary", language);
         dictionaryRepository.save(
                 new Dictionary(language, getWords())
