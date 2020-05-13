@@ -6,7 +6,7 @@ addons:
   sonarcloud:
     organization: "devus10"
     token:
-      secure: "**************************" # encrypted value of your token
+      secure: "CijfWVBEoR1uLOKrVXGtOq23/Y6Q5Rqu9AIt2S0eUENj4oc1p3OJPAt2Ct1PydkfRm2biLGZ9js52TJuhxm7fiL/Lc6yPqFrHH37LjPRyOqoMBz3diMKYyT1IrHu28nweUfp9tI+ttJcdIGYiD6YhFyhPuR9zzLFA/2qnqEWr+kUMID6kyyRFFHjgPQ9lG+rFVQuMIs4iZwrPyJQu02ksomwuIX+FVpEvooEClwcW9jubuh2VQwR5vCYzyFMHExlCFuE9X9kHwA5jgqEE/lOYfbVo2qdm52sFdFkXlkYJCm2n5s9luDxjgzVTNyvxzsT/uwUUapZZ0csTMjDDkBr/C8mi2lk95z5sdBo7mtZEDjOyzvKfSYjPVgZxWe8LfZyr1s+3JLgrYdWFTyv++M6LIWDEj4rfJzKD+52+5VYyzVeQwE6XKr9z5r4SiI7Py0pgS+xXCR4N6HUFpabj3G/upe/WMxSiy3zQ8HNXIPM6mFRFrMOiZYebDXVb9QcDX+n9Nwf/6Iubbha5nSFohmqYHUQos9aPw2CaRcvxpNdZlDrYUrkVK8MZqVwj2wxV6YJbva+pcthyUKnf9d6RXm8L/V53WWJe0Er5EMKOiH3+kIoy12uxlM8KznGztCjBO2vu6xolfbqPU691S82ZGMskIplcXeBtCFygqnjeRTMuZg="
 
 script:
   - ./gradlew sonarqube
