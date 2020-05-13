@@ -6,7 +6,6 @@ import com.pakisoft.wordfinder.infrastructure.HardwareProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -47,10 +46,6 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
     }
 
     private void save(Collection<String> words, PersistedDictionary persistedDictionary) {
-        words.forEach(word -> {
-            if (!persistedDictionary.exists(word)) {
-                persistedDictionary.add(word);
-            }
-        });
+        words.forEach(persistedDictionary::addIfMissing);
     }
 }

@@ -3,6 +3,7 @@ package com.pakisoft.wordfinder.domain
 import com.pakisoft.wordfinder.domain.configuration.DomainConfiguration
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever
 import com.pakisoft.wordfinder.domain.dictionary.Language
+import com.pakisoft.wordfinder.domain.port.secondary.CronRetriever
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler
@@ -12,7 +13,6 @@ import spock.lang.Specification
 import static com.pakisoft.wordfinder.domain.dictionary.Language.ENGLISH
 import static com.pakisoft.wordfinder.domain.dictionary.Language.FRENCH
 import static com.pakisoft.wordfinder.domain.dictionary.Language.POLISH
-import static com.pakisoft.wordfinder.domain.dictionary.Language.RUSSIAN
 
 class DomainSpecification extends Specification {
 
@@ -43,6 +43,15 @@ class DomainSpecification extends Specification {
         }
     }
 
+    def scheduler() {
+        Mock(Scheduler)
+    }
+
+    def cronRetriever() {
+        Mock(CronRetriever) {
+            getDictionarySavingCron() >> "0 0 0 * * SAT"
+        }
+    }
 
     Set<DictionaryRetriever> dictionaryRetrievers() {
         def set = DomainConfiguration.instance.dictionaryRetrievers(
@@ -53,10 +62,6 @@ class DomainSpecification extends Specification {
                 new FrenchDictionaryRetriever(),
         ])
         set
-    }
-
-    def scheduler() {
-        Mock(Scheduler)
     }
 
     private class FrenchDictionaryRetriever extends DictionaryRetriever {

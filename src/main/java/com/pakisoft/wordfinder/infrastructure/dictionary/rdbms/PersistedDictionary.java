@@ -15,12 +15,10 @@ public abstract class PersistedDictionary {
 
     protected final JpaDictionaryWordRepository jpaDictionaryWordRepository;
 
-    void add(String word) {
-        jpaDictionaryWordRepository.save(createDictionaryWord(word));
-    }
-
-    boolean exists(String word) {
-        return jpaDictionaryWordRepository.findByWord(word).isPresent();
+    void addIfMissing(String word) {
+        if (!exists(word)) {
+            jpaDictionaryWordRepository.add(createDictionaryWord(word));
+        }
     }
 
     protected abstract boolean applicable(Language language);
@@ -32,6 +30,10 @@ public abstract class PersistedDictionary {
                 word,
                 allWordsAssembledFrom(lowerCasedAndSortedAlphabetically(word))
         );
+    }
+
+    private boolean exists(String word) {
+        return jpaDictionaryWordRepository.findByWord(word).isPresent();
     }
 
     private Set<String> allWordsAssembledFrom(String sortedWord) {

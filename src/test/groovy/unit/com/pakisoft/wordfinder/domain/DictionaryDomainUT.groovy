@@ -13,7 +13,8 @@ class DictionaryDomainUT extends DomainSpecification {
     def scheduler = scheduler()
     def dictionaryService = new DictionaryDomainService(
             dictionaryRetrievers(),
-            scheduler
+            scheduler,
+            cronRetriever()
     )
 
     def "should save the dictionaries"() {

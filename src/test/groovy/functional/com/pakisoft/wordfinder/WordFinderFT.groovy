@@ -17,6 +17,7 @@ import java.nio.file.Paths
 import static com.github.tomakehurst.wiremock.client.WireMock.get
 import static com.github.tomakehurst.wiremock.client.WireMock.ok
 import static com.github.tomakehurst.wiremock.client.WireMock.okForContentType
+import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED
 import static com.pakisoft.wordfinder.common.AwaitUtil.waitFor
 import static com.pakisoft.wordfinder.common.DbProperties.DB_NAME
 import static com.pakisoft.wordfinder.common.DbProperties.PASSWORD
@@ -53,10 +54,6 @@ class WordFinderFT extends Specification {
         sql = Sql.newInstance(db.jdbcUrl, db.username, db.password)
     }
 
-    def cleanupSpec() {
-        db.stop()
-    }
-
     def "should get the word from polish dictionary after dictionary initialization"() {
         expect:
         waitForTableCount('polish_dictionary', 7)
@@ -77,7 +74,7 @@ class WordFinderFT extends Specification {
 
     def "should get the word from english dictionary after dictionary initialization"() {
         expect:
-        waitForTableCount('english_dictionary', 3)
+        waitForTableCount('english_dictionary', 4)
 
         when().
                 get(url('en', 'board')).
@@ -117,8 +114,15 @@ class WordFinderFT extends Specification {
     }
 
     static stubbedMathSjsuEdu() {
-        wireMockRule.stubFor(get("/english")
+        wireMockRule.stubFor(get("/english").inScenario('TODO')
+                .whenScenarioStateIs(STARTED)
+                .willSetStateTo('SECOND')
                 .willReturn(okForContentType("text/plain", 'and\nboard\ncar\n'))
+        )
+
+        wireMockRule.stubFor(get("/english").inScenario('TODO')
+                .whenScenarioStateIs('SECOND')
+                .willReturn(okForContentType("text/plain", 'and\nboard\ncar\ndown\n'))
         )
     }
 
@@ -127,7 +131,7 @@ class WordFinderFT extends Specification {
     }
 
     static void waitForTableCount(String table, count) {
-        waitFor({ getCountFrom(table) == count }, 1000)
+        waitFor({ getCountFrom(table) == count }, 3000)
     }
 
     static getCountFrom(String table) {

@@ -24,7 +24,7 @@ class RdbmsDictionaryRepositoryUT extends Specification {
         def dictionary = polishDictionary()
 
         and: 'number of threads'
-        hardwareProperties.getCpus() >> 3
+        hardwareProperties.getCpus() >> 1
 
         and: 'found persisted dictionary'
         def savedWords = []
@@ -35,17 +35,13 @@ class RdbmsDictionaryRepositoryUT extends Specification {
         repository.save(dictionary)
 
         then: 'a dictionary has been saved'
-        waitFor({ savedWords.size() == 2 })
-        savedWords.containsAll(['auto', 'bułka'])
+        waitFor({ savedWords.size() == 3 })
+        savedWords.containsAll(['auto', 'bułka', 'cel'])
     }
 
-    private PersistedDictionary persistedDictionary(added) {
+    private PersistedDictionary persistedDictionary(savedWords) {
         Mock(PersistedDictionary) {
-            exists(_ as String) >> { String string ->
-                if (string == 'cel') return true
-                return false
-            }
-            add(_ as String) >> { String string -> added << string }
+            addIfMissing(_ as String) >> { String string -> savedWords << string }
         }
     }
 

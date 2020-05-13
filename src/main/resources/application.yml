@@ -1,5 +1,7 @@
 dictionary-target-directory:
 
+dictionary-saving-cron:
+
 dictionary:
   polish:
     target-dir:

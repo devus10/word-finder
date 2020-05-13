@@ -87,16 +87,16 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
 
     private Set<String> readWordsFromExtractedDictionaryFile() {
         ChronicleSet<String> words = ChronicleSet.of(String.class)
-                    .name("polish_dict")
+                    .name("polish_dictionary")
                     .averageKey("blendziorowaty")
                     .entries(5_000_000)
                     .create();
-
 
         fileReader.readLines(extractedDictionaryFilePath).stream()
                 .map(this::splitLineToStrings)
                 .flatMap(Collection::stream)
                 .forEach(words::add);
+
         return words;
     }
 

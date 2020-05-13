@@ -2,6 +2,7 @@ package com.pakisoft.wordfinder.domain.dictionary;
 
 import com.google.common.collect.Sets;
 import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
+import com.pakisoft.wordfinder.domain.port.secondary.CronRetriever;
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,17 +15,16 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 @Slf4j
 public class DictionaryDomainService implements DictionaryService {
 
-    private static final String EVERY_SATURDAY_MIDNIGHT = "0 0 0 * * SAT";
-
     private final Set<DictionaryRetriever> dictionaryRetrievers;
     private final Scheduler scheduler;
+    private final CronRetriever cronRetriever;
 
     @Override
     public void saveAndScheduleSaving() {
         runAsync(this::saveDictionaries);
         scheduler.schedule(
                 this::saveDictionaries,
-                EVERY_SATURDAY_MIDNIGHT
+                cronRetriever.getDictionarySavingCron()
         );
     }
 

@@ -17,9 +17,6 @@ import javax.persistence.InheritanceType;
 public abstract class DictionaryWordEntity {
 
     @Id
-    @GeneratedValue
-    private Long id;
-
     private String word;
 
     private String sortedWord;

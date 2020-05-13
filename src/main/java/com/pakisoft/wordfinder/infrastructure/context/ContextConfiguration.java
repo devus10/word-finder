@@ -5,6 +5,7 @@ import com.pakisoft.wordfinder.domain.dictionary.DictionaryDomainService;
 import com.pakisoft.wordfinder.domain.dictionary.DictionaryRetriever;
 import com.pakisoft.wordfinder.domain.port.primary.DictionaryService;
 import com.pakisoft.wordfinder.domain.port.primary.WordService;
+import com.pakisoft.wordfinder.domain.port.secondary.CronRetriever;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryRepository;
 import com.pakisoft.wordfinder.domain.port.secondary.DictionaryWordFinder;
 import com.pakisoft.wordfinder.domain.port.secondary.Scheduler;
@@ -31,8 +32,8 @@ public class ContextConfiguration {
     }
 
     @Bean
-    public DictionaryService dictionaryService(Scheduler scheduler, DictionaryRepository dictionaryRepository) {
-        return new DictionaryDomainService(dictionaryRetrievers(dictionaryRepository), scheduler);
+    public DictionaryService dictionaryService(Scheduler scheduler, DictionaryRepository dictionaryRepository, CronRetriever cronRetriever) {
+        return new DictionaryDomainService(dictionaryRetrievers(dictionaryRepository), scheduler, cronRetriever);
     }
 
     private Set<DictionaryRetriever> dictionaryRetrievers(DictionaryRepository dictionaryRepository) {

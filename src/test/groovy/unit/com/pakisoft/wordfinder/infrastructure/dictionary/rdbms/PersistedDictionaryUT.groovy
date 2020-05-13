@@ -2,6 +2,7 @@ package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms
 
 import com.pakisoft.wordfinder.domain.dictionary.Language
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class PersistedDictionaryUT extends Specification {
 
@@ -15,25 +16,6 @@ class PersistedDictionaryUT extends Specification {
         @Override
         protected DictionaryWordEntity createDictionaryWord(String word) {
             return dictionaryWordEntity(word)
-        }
-    }
-
-    def "should check if given word exists in a persisted dictionary"() {
-        given:
-        jpaDictionaryWordRepository.findByWord(word) >> found
-
-        expect:
-        result == persistedDictionary.exists(word)
-
-        where:
-        word   | found                               | result
-        'word' | Optional.of(dictionaryWordEntity()) | true
-        'xyz'  | Optional.empty()                    | false
-    }
-
-    private def dictionaryWordEntity(String word = 'word') {
-        return Mock(DictionaryWordEntity) {
-            getWord() >> word
         }
     }
 
@@ -53,13 +35,27 @@ class PersistedDictionaryUT extends Specification {
         result.anagrams == ['auto', 'otua'] as Set
     }
 
+    @Unroll
     def "should add a word to a persisted dictionary"() {
+        given:
+        jpaDictionaryWordRepository.findByWord('word') >> found
+
         when:
-        persistedDictionary.add('word')
+        persistedDictionary.addIfMissing('word')
 
         then:
-        1 * jpaDictionaryWordRepository.save(_) >> { DictionaryWordEntity entity ->
-            assert entity.word == 'word'
+        times * jpaDictionaryWordRepository.add(_)
+
+        where:
+        found                               | times
+        Optional.of(dictionaryWordEntity()) | 0
+        Optional.empty()                    | 1
+    }
+
+    private def dictionaryWordEntity(String word = 'word') {
+        return Mock(DictionaryWordEntity) {
+            getWord() >> word
         }
     }
+
 }

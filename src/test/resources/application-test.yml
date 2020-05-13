@@ -1,5 +1,7 @@
 dictionary-target-directory: test_dictionaries
 
+dictionary-saving-cron: "*/1 * * * * *" # = every second
+
 dictionary:
   polish:
     target-dir: ${dictionary-target-directory}/polish
@@ -19,7 +21,7 @@ spring:
       ddl-auto: create
 
 hardware:
-  cpus: 2
+  cpus: 4
 
 testcontainers:
   postgres-image: postgres:9.6.17-alpine
