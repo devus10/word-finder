@@ -1,5 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
 
+import com.pakisoft.wordfinder.domain.dictionary.Language
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -90,6 +91,11 @@ class SjpPolishWordsRetrieverUT extends Specification {
 
         cleanup:
         removeDictionariesDirectory()
+    }
+
+    def "should return Polish language"() {
+        expect:
+        retriever.getLanguage() == Language.POLISH
     }
 
     private void prepareDirectoryWithDictionary() {

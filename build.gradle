@@ -9,6 +9,11 @@ buildscript {
 		zip4jVersion = '2.5.2'
 		reflectionsVersion = '0.9.9'
 		feignVersion = '2.2.2.RELEASE'
+		awaitilityVersion = '4.0.2'
+		testcontainersVersion = '1.14.1'
+		archunitVersion = '0.13.1'
+		chronicleMapVersion = '3.19.4'
+		postgresJdbcVersion = '42.2.12'
 	}
 }
 
@@ -45,24 +50,25 @@ dependencies {
 	compile "org.reflections:reflections:$reflectionsVersion"
 	compile "io.springfox:springfox-swagger2:$springfoxVersion"
 	compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
-	compile group: 'net.openhft', name: 'chronicle-map', version: '3.19.4'
-	compileOnly 'org.projectlombok:lombok'
-	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
+	compile "net.openhft:chronicle-map:$chronicleMapVersion"
+	compile "org.postgresql:postgresql:$postgresJdbcVersion"
 
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation "com.tngtech.archunit:archunit-junit4:$archunitVersion"
 	testCompile "org.spockframework:spock-core:$spockVersion"
 	testCompile "org.spockframework:spock-spring:$spockVersion"
 	testCompile "com.github.tomakehurst:wiremock:$wiremockVersion"
 	testCompile "io.rest-assured:rest-assured:$restAssuredVersion"
 	testCompile "io.rest-assured:json-path:$restAssuredVersion"
 	testCompile "io.rest-assured:xml-path:$restAssuredVersion"
-	testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
-	testCompile "org.testcontainers:spock:1.14.1"
-	testCompile "org.testcontainers:postgresql:1.14.1"
+	testCompile "org.awaitility:awaitility:$awaitilityVersion"
+	testCompile "org.testcontainers:spock:$testcontainersVersion"
+	testCompile "org.testcontainers:postgresql:$testcontainersVersion"
 }
 
 test {

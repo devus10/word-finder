@@ -1,5 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.english.mathsjsuedu
 
+import com.pakisoft.wordfinder.domain.dictionary.Language
 import spock.lang.Specification
 
 class MathSjsuEduWordsRetrieverUT extends Specification {
@@ -13,5 +14,10 @@ class MathSjsuEduWordsRetrieverUT extends Specification {
 
         expect:
         retriever.getWords() == ['and', 'board', 'car'] as Set
+    }
+
+    def "should return English language"() {
+        expect:
+        retriever.getLanguage() == Language.ENGLISH
     }
 }
