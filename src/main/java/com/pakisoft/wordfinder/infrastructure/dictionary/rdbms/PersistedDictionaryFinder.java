@@ -13,7 +13,7 @@ class PersistedDictionaryFinder{
 
     private final List<PersistedDictionary<? extends DictionaryWordEntity>> persistedDictionaryRepositories;
 
-    PersistedDictionary<? extends DictionaryWordEntity> findBy(Language language) {
+    PersistedDictionary findBy(Language language) {
         return persistedDictionaryRepositories.stream()
                 .filter(repo -> repo.applicable(language))
                 .findFirst()

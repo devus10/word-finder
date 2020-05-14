@@ -1,7 +1,6 @@
 package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.english;
 
 import com.pakisoft.wordfinder.domain.dictionary.Language;
-import com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.DictionaryWordEntity;
 import com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.PersistedDictionary;
 import org.springframework.stereotype.Component;
 
