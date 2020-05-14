@@ -2,6 +2,8 @@ package com.pakisoft.wordfinder.infrastructure.dictionary.rdbms;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class CollectionUtil {
 
     static <T> List<ArrayList<T>> partition(Collection<T> collection, int numberOfPartitions) {

@@ -92,7 +92,7 @@ class WordFinderFT extends Specification {
     }
 
     static stubbedSjpPage() {
-        wireMockRule.stubFor(get("/polish")
+        wireMockRule.stubFor(get("/polish/")
                 .willReturn(okForContentType("text/html",
                         """
                         <html>
@@ -141,8 +141,8 @@ class WordFinderFT extends Specification {
     static class Initializer extends PropertiesInitializer {
         static {
             PropertiesInitializer.properties = [
-                    "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish",
-                    "dictionary.english.math-sjsu-edu.url=${wireMockRule.baseUrl()}/english",
+                    "dictionary.polish.sjp.url=${wireMockRule.baseUrl()}/polish/",
+                    "dictionary.english.math-sjsu-edu.url=${wireMockRule.baseUrl()}/english/",
                     "spring.datasource.url=${db.getJdbcUrl()}"
             ]
         }

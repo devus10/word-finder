@@ -1,11 +1,6 @@
-package unit.com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
+package com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp
 
 import com.pakisoft.wordfinder.domain.port.secondary.WordsRetriever
-import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileReader
-import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.FileUtil
-import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.HtmlDocumentFetcher
-import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.SjpPolishWordsRetriever
-import com.pakisoft.wordfinder.infrastructure.dictionary.polish.sjp.TextFileReader
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -21,7 +16,7 @@ import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX
 
 class SjpPolishWordsRetrieverUT extends Specification {
 
-    private static final URL = 'sjp.pl'
+    private static final URL = 'sjp.pl/'
     private static final SJP_ZIP_FILE_NAME = 'sjp_testdictionary.zip'
     private static final DICTIONARIES_DIRECTORY = 'test_dictionaries'
 
@@ -37,7 +32,7 @@ class SjpPolishWordsRetrieverUT extends Specification {
     def setup() {
         retriever.log = Mock(Logger)
         retriever.dictionaryUrl = URL
-        retriever.targetDirectory = "$DICTIONARIES_DIRECTORY/polish"
+        retriever.targetDirectory = "$DICTIONARIES_DIRECTORY/polish/"
     }
 
     def "should get words from external dictionary zip file"() {

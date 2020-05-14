@@ -4,7 +4,7 @@ dictionary-saving-cron: "*/1 * * * * *" # = every second
 
 dictionary:
   polish:
-    target-dir: ${dictionary-target-directory}/polish
+    target-dir: ${dictionary-target-directory}/polish/
     sjp:
       url: DEFINE_IN_TEST
   english:

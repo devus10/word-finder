@@ -38,7 +38,7 @@ public class DomainConfiguration {
             dictionaryRetriever.initializeWordsRetriever(matchingWordsRetriever, dictionaryRepository);
             return dictionaryRetriever;
         } catch (Exception e) {
-            throw new Error("Cannot instantiate dictionary retriever");
+            throw new DomainInitializationError("Cannot instantiate dictionary retriever");
         }
     }
 
@@ -65,9 +65,9 @@ public class DomainConfiguration {
                 Collectors.toList(),
                 list -> {
                     if (list.isEmpty())
-                        throw new Error(s("Unable to find words retriever for %s language", language));
+                        throw new DomainInitializationError(s("Unable to find words retriever for %s language", language));
                     if (list.size() > 1)
-                        throw new Error(s("There can be only one words retriever for %s langage, found: %s", language, list));
+                        throw new DomainInitializationError(s("There can be only one words retriever for %s langage, found: %s", language, list));
                     return list.get(0);
                 }
         );
@@ -79,5 +79,12 @@ public class DomainConfiguration {
 
     private static class SingletonHelper {
         private static final DomainConfiguration INSTANCE = new DomainConfiguration();
+    }
+
+    private static class DomainInitializationError extends Error {
+
+        DomainInitializationError(String message) {
+            super(message);
+        }
     }
 }
