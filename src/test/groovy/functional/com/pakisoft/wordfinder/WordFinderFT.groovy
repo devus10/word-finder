@@ -3,6 +3,7 @@ package com.pakisoft.wordfinder
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
 import com.pakisoft.wordfinder.annotation.FunctionalTest
 import com.pakisoft.wordfinder.common.PropertiesInitializer
+import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import org.junit.ClassRule
 import org.springframework.boot.web.server.LocalServerPort
@@ -59,9 +60,20 @@ class WordFinderFT extends Specification {
     }
 
     def "should get the word from polish dictionary after dictionary initialization"() {
-        expect:
+        expect: 'that polish dictionary has been saved'
         waitForTableCount('polish_dictionary', 7)
 
+        def rows = sql.rows "SELECT * FROM polish_dictionary"
+        rows.size() == 7
+        matches(rows, 'a', 'a')
+        matches(rows, 'kapo', 'akop')
+        matches(rows, 'okap', 'akop')
+        matches(rows, 'polski', 'iklops')
+        matches(rows, 'pako', 'akop')
+        matches(rows, 'polskich', 'chiklops')
+        matches(rows, 'polskie', 'eiklops')
+
+        and: 'the API returns correct data'
         when().
                 get(url('pl', 'pako')).
         then().
@@ -74,9 +86,17 @@ class WordFinderFT extends Specification {
     }
 
     def "should get the word from english dictionary after dictionary initialization"() {
-        expect:
+        expect: 'that english dictionary has been saved'
         waitForTableCount('english_dictionary', 4)
 
+        def rows = sql.rows "SELECT * FROM english_dictionary"
+        rows.size() == 4
+        matches(rows, 'and', 'adn')
+        matches(rows, 'car', 'acr')
+        matches(rows, 'board', 'abdor')
+        matches(rows, 'down', 'dnow')
+
+        and: 'the API returns correct data'
         when().
                 get(url('en', 'board')).
         then().
@@ -137,6 +157,16 @@ class WordFinderFT extends Specification {
 
     static getCountFrom(String table) {
         sql.rows("SELECT COUNT(*) FROM $table".toString()).get(0)['count']
+    }
+
+    static matches(List<GroovyRowResult> results, String expectedWord, String expectedSortedWord) {
+        return results.any {
+            row(it, expectedWord, expectedSortedWord)
+        }
+    }
+
+    static row(GroovyRowResult result, String expectedWord, String expectedSortedWord) {
+        return result['word'] == expectedWord && result['sorted_word'] == expectedSortedWord
     }
 
     static class Initializer extends PropertiesInitializer {
