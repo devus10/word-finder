@@ -86,10 +86,7 @@ class SjpPolishWordsRetrieverUT extends Specification {
 
         then: 'exception is thrown'
         def ex = thrown(WordsRetriever.FailedWordsRetrievingException)
-        ex.message == 'Failed to retrieve words'
-
-        and:
-        1 * retriever.log.error('java.io.IOException: error')
+        ex.message == 'Failed to retrieve words due to: java.io.IOException: error'
 
         cleanup:
         removeDictionariesDirectory()

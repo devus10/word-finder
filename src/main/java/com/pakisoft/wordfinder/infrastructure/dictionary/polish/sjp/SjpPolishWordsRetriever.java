@@ -51,8 +51,7 @@ public class SjpPolishWordsRetriever implements PolishWordsRetriever {
             downloadAndExtractDictionaryFileIfNecessary();
             return readWordsFromExtractedDictionaryFile();
         } catch (Exception e) {
-            log.error(e.toString());
-            throw new FailedWordsRetrievingException("Failed to retrieve words", e);
+            throw new FailedWordsRetrievingException("Failed to retrieve words due to: " + e, e);
         }
     }
 
