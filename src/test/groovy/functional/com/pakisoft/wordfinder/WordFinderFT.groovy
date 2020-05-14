@@ -54,6 +54,10 @@ class WordFinderFT extends Specification {
         sql = Sql.newInstance(db.jdbcUrl, db.username, db.password)
     }
 
+    def cleanupSpec() {
+        removeDictionariesDirectory()
+    }
+
     def "should get the word from polish dictionary after dictionary initialization"() {
         expect:
         waitForTableCount('polish_dictionary', 7)
@@ -67,9 +71,6 @@ class WordFinderFT extends Specification {
                         'dictionaryAnagrams', hasSize(3),
                         'dictionaryAnagrams', hasItems('pako', 'kapo', 'okap')
                 )
-
-        cleanup:
-        removeDictionariesDirectory()
     }
 
     def "should get the word from english dictionary after dictionary initialization"() {

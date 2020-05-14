@@ -42,11 +42,11 @@ public interface JpaDictionaryWordRepository<E extends DictionaryWordEntity> ext
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     final class LogHolder {
-        private static Logger log = LoggerFactory.getLogger(JpaDictionaryWordRepository.class);
+        private static final Logger log = LoggerFactory.getLogger(JpaDictionaryWordRepository.class);
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     final class Properties {
-        private static String PRIMARY_KEY_CONSTRAINT_VIOLATION_CODE = "23505";
+        private static final String PRIMARY_KEY_CONSTRAINT_VIOLATION_CODE = "23505";
     }
 }

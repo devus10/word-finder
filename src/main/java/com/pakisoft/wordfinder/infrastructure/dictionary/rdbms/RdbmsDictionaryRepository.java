@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 public class RdbmsDictionaryRepository implements DictionaryRepository {
 
     private final HardwareProperties hardwareProperties;
-    private final PersistedDictionaryFinder persistedDictionaryFinder;
+    private final PersistedDictionaryFinder<? extends DictionaryWordEntity> persistedDictionaryFinder;
     private ExecutorService executorService;
     private int threads;
 

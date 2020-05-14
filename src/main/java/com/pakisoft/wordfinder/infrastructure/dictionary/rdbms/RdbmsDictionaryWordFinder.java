@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class RdbmsDictionaryWordFinder implements DictionaryWordFinder {
 
-    private final PersistedDictionaryFinder persistedDictionaryFinder;
+    private final PersistedDictionaryFinder<? extends DictionaryWordEntity> persistedDictionaryFinder;
 
     @Override
     public DictionaryWord find(Language language, String word) {
