@@ -9,11 +9,11 @@ import java.util.NoSuchElementException;
 
 @Component
 @RequiredArgsConstructor
-class PersistedDictionaryFinder {
+class PersistedDictionaryFinder{
 
-    private final List<PersistedDictionary> persistedDictionaryRepositories;
+    private final List<PersistedDictionary<? extends DictionaryWordEntity>> persistedDictionaryRepositories;
 
-    PersistedDictionary findBy(Language language) {
+    PersistedDictionary<? extends DictionaryWordEntity> findBy(Language language) {
         return persistedDictionaryRepositories.stream()
                 .filter(repo -> repo.applicable(language))
                 .findFirst()

@@ -6,14 +6,14 @@ import com.pakisoft.wordfinder.infrastructure.dictionary.rdbms.PersistedDictiona
 import org.springframework.stereotype.Component;
 
 @Component
-class EnglishPersistedDictionary extends PersistedDictionary {
+class EnglishPersistedDictionary extends PersistedDictionary<EnglishDictionaryWordEntity> {
 
     EnglishPersistedDictionary(JpaEnglishDictionaryWordRepository jpaEnglishDictionaryWordRepository) {
         super(jpaEnglishDictionaryWordRepository);
     }
 
     @Override
-    protected DictionaryWordEntity createDictionaryWord(String word) {
+    protected EnglishDictionaryWordEntity createDictionaryWord(String word) {
         return new EnglishDictionaryWordEntity(word);
     }
 

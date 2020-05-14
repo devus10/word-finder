@@ -45,7 +45,7 @@ public class RdbmsDictionaryRepository implements DictionaryRepository {
         return Executors.newFixedThreadPool(threads);
     }
 
-    private void save(Collection<String> words, PersistedDictionary persistedDictionary) {
+    private void save(Collection<String> words, PersistedDictionary<? extends DictionaryWordEntity> persistedDictionary) {
         words.forEach(persistedDictionary::addIfMissing);
     }
 }
