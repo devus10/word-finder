@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class MathSjsuEduWordsRetriever implements EnglishWordsRetriever {
 
-    private final static String WORDS_DELIMITER = "\n";
+    private static final String WORDS_DELIMITER = "\n";
 
     private final MathSjsuEduClient mathSjsuEduClient;
 

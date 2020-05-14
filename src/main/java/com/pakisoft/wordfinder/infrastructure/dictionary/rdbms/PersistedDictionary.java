@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import static com.pakisoft.wordfinder.domain.util.StringUtil.lowerCasedAndSortedAlphabetically;
 
 @RequiredArgsConstructor
-public abstract class PersistedDictionary {
+public abstract class PersistedDictionary<E extends DictionaryWordEntity> {
 
-    protected final JpaDictionaryWordRepository jpaDictionaryWordRepository;
+    protected final JpaDictionaryWordRepository<E> jpaDictionaryWordRepository;
 
     void addIfMissing(String word) {
         if (!exists(word)) {
@@ -23,7 +23,7 @@ public abstract class PersistedDictionary {
 
     protected abstract boolean applicable(Language language);
 
-    protected abstract DictionaryWordEntity createDictionaryWord(String word);
+    protected abstract E createDictionaryWord(String word);
 
     DictionaryWordFinder.DictionaryWord find(String word) {
         return new DictionaryWordFinder.DictionaryWord(

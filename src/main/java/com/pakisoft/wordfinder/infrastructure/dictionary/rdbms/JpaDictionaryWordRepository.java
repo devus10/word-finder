@@ -25,16 +25,19 @@ public interface JpaDictionaryWordRepository<E extends DictionaryWordEntity> ext
         try {
             save(dictionaryWord);
         } catch (DataIntegrityViolationException e) {
-                Optional.of(e)
-                        .map(Throwable::getCause)
-                        .filter(cause -> cause instanceof ConstraintViolationException)
-                        .map(cause -> (ConstraintViolationException) cause)
-                        .map(ConstraintViolationException::getSQLException)
-                        .map(SQLException::getSQLState)
-                        .filter(sqlState -> sqlState.equals(PRIMARY_KEY_CONSTRAINT_VIOLATION_CODE))
-                        .ifPresentOrElse(sqlState -> log.warn("Dictionary word '{}' already exists", dictionaryWord.getWord()), () -> {
-                            throw e;
-                        });
+            Optional.of(e)
+                    .map(Throwable::getCause)
+                    .filter(cause -> cause instanceof ConstraintViolationException)
+                    .map(cause -> (ConstraintViolationException) cause)
+                    .map(ConstraintViolationException::getSQLException)
+                    .map(SQLException::getSQLState)
+                    .filter(sqlState -> sqlState.equals(PRIMARY_KEY_CONSTRAINT_VIOLATION_CODE))
+                    .ifPresentOrElse(
+                            sqlState -> log.warn("Dictionary word '{}' already exists", dictionaryWord.getWord()),
+                            () -> {
+                                throw e;
+                            }
+                    );
         }
     }
 }
