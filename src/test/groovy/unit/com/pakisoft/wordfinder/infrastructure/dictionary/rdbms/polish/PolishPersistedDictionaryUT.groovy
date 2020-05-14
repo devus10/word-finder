@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class PolishPersistedDictionaryUT extends Specification {
 
-    private JpaDictionaryWordRepository jpaDictionaryWordRepository = Mock()
+    private JpaPolishDictionaryWordRepository jpaDictionaryWordRepository = Mock()
     def dictionary = new PolishPersistedDictionary(jpaDictionaryWordRepository)
 
     def "should check if dictionary is applicable"() {
