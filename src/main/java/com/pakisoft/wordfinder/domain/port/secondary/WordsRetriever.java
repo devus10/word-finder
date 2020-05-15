@@ -16,5 +16,9 @@ public interface WordsRetriever {
         public FailedWordsRetrievingException(String message, Throwable cause) {
             super(message, cause);
         }
+
+        public FailedWordsRetrievingException(String message) {
+            super(message);
+        }
     }
 }

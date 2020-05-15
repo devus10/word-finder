@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,9 +20,12 @@ public class MathSjsuEduWordsRetriever implements EnglishWordsRetriever {
     @Override
     public Set<String> getWords() throws FailedWordsRetrievingException {
         log.info("Started to retrieve English words from Math sjs edu");
-        var words = Stream.of(mathSjsuEduClient.getWords().split(WORDS_DELIMITER))
-                .collect(Collectors.toSet());
-        log.info("Finished to retrieve English words from Math sjs edu");
-        return words;
+        var words = mathSjsuEduClient.getWords();
+        if (words.isPresent()) {
+            log.info("Finished to retrieve English words from Math sjs edu");
+            return Stream.of(words.get().split(WORDS_DELIMITER)).collect(Collectors.toCollection(TreeSet::new));
+        }
+
+        throw new FailedWordsRetrievingException("Math sjs edu endpoint returned HTTP 404");
     }
 }

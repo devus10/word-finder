@@ -16,6 +16,7 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get
+import static com.github.tomakehurst.wiremock.client.WireMock.notFound
 import static com.github.tomakehurst.wiremock.client.WireMock.ok
 import static com.github.tomakehurst.wiremock.client.WireMock.okForContentType
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED
@@ -135,15 +136,21 @@ class WordFinderFT extends Specification {
     }
 
     static stubbedMathSjsuEdu() {
-        wireMockRule.stubFor(get("/english").inScenario('TODO')
+        wireMockRule.stubFor(get("/english").inScenario('ENGLISH_DICTIONARY')
                 .whenScenarioStateIs(STARTED)
                 .willSetStateTo('SECOND')
                 .willReturn(okForContentType("text/plain", 'and\nboard\ncar\n'))
         )
 
-        wireMockRule.stubFor(get("/english").inScenario('TODO')
+        wireMockRule.stubFor(get("/english").inScenario('ENGLISH_DICTIONARY')
                 .whenScenarioStateIs('SECOND')
+                .willSetStateTo('THIRD')
                 .willReturn(okForContentType("text/plain", 'and\nboard\ncar\ndown\n'))
+        )
+
+        wireMockRule.stubFor(get("/english").inScenario('ENGLISH_DICTIONARY')
+                .whenScenarioStateIs('THIRD')
+                .willReturn(notFound())
         )
     }
 

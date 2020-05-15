@@ -29,7 +29,6 @@ public abstract class DictionaryRetriever {
         dictionaryRepository.save(
                 new Dictionary(language, getWords())
         );
-        log.info("Finished to save {} dictionary", language);
     }
 
     private Set<String> getWords() {
