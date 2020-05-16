@@ -19,6 +19,7 @@ class DomainDependenciesUT {
     static GUAVA = 'com.google.common..'
     static REFLECTIONS = 'org.reflections..'
     static JAVA = 'java..'
+    static LOMBOK = 'lombok..'
 
     @ArchTest
     static final ArchRule domain_should_not_depend_on_application_and_infrastructure =
@@ -44,6 +45,7 @@ class DomainDependenciesUT {
                             JAVA,
                             SLF4J,
                             GUAVA,
-                            REFLECTIONS
+                            REFLECTIONS,
+                            LOMBOK
                     )
 }
