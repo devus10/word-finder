@@ -38,7 +38,7 @@ public class DictionaryDomainService implements DictionaryService {
             try {
                 dictionaryRetriever.saveDictionary();
             } catch (DictionaryException e) {
-                log.error("Failed to save {} dictionary", dictionaryRetriever.getLanguage());
+                log.error("Failed to save {} dictionary", dictionaryRetriever.getLanguage(), e);
             }
         });
     }

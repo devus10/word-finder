@@ -4,7 +4,7 @@ dictionary-saving-cron: "0 0 0 * * SAT" # = every saturday midnight
 
 dictionary:
   polish:
-    target-dir: ${dictionary-target-directory}/polish
+    target-dir: ${dictionary-target-directory}/polish/
     sjp:
       url: https://sjp.pl/slownik/odmiany/
   english:
