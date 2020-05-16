@@ -42,16 +42,15 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.6.RELEASE'
-	compile "org.springframework.cloud:spring-cloud-starter-openfeign:$feignVersion"
-	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-	compile "org.jsoup:jsoup:$jsoupVersion"
-	compile "net.lingala.zip4j:zip4j:$zip4jVersion"
-	compile "org.reflections:reflections:$reflectionsVersion"
-	compile "io.springfox:springfox-swagger2:$springfoxVersion"
-	compile "io.springfox:springfox-swagger-ui:$springfoxVersion"
-	compile "net.openhft:chronicle-map:$chronicleMapVersion"
-	compile "org.postgresql:postgresql:$postgresJdbcVersion"
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:$feignVersion"
+	implementation "org.jsoup:jsoup:$jsoupVersion"
+	implementation "net.lingala.zip4j:zip4j:$zip4jVersion"
+	implementation "org.reflections:reflections:$reflectionsVersion"
+	implementation "io.springfox:springfox-swagger2:$springfoxVersion"
+	implementation "io.springfox:springfox-swagger-ui:$springfoxVersion"
+	implementation "net.openhft:chronicle-map:$chronicleMapVersion"
+	implementation "org.postgresql:postgresql:$postgresJdbcVersion"
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -59,20 +58,17 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation "org.codehaus.groovy:groovy-all:$groovyVersion"
 	testImplementation "com.tngtech.archunit:archunit-junit4:$archunitVersion"
-	testCompile "org.spockframework:spock-core:$spockVersion"
-	testCompile "org.spockframework:spock-spring:$spockVersion"
-	testCompile "com.github.tomakehurst:wiremock:$wiremockVersion"
-	testCompile "io.rest-assured:rest-assured:$restAssuredVersion"
-	testCompile "io.rest-assured:json-path:$restAssuredVersion"
-	testCompile "io.rest-assured:xml-path:$restAssuredVersion"
-	testCompile "org.awaitility:awaitility:$awaitilityVersion"
-	testCompile "org.testcontainers:spock:$testcontainersVersion"
-	testCompile "org.testcontainers:postgresql:$testcontainersVersion"
-}
-
-test {
-	useJUnitPlatform()
+	testImplementation "org.spockframework:spock-core:$spockVersion"
+	testImplementation "org.spockframework:spock-spring:$spockVersion"
+	testImplementation "com.github.tomakehurst:wiremock:$wiremockVersion"
+	testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+	testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+	testImplementation "io.rest-assured:xml-path:$restAssuredVersion"
+	testImplementation "org.awaitility:awaitility:$awaitilityVersion"
+	testImplementation "org.testcontainers:spock:$testcontainersVersion"
+	testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
 }
 
 sourceSets {
