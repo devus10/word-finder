@@ -97,3 +97,9 @@ sonarqube {
 		property "sonar.exclusions", "**/*test*/**"
 	}
 }
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+}
