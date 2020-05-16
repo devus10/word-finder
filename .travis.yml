@@ -11,7 +11,5 @@ addons:
 
 jobs:
   include:
-    - stage: "Build"
-      script: ./gradlew build
     - stage: "Sonar"
       script: ./gradlew sonarqube
