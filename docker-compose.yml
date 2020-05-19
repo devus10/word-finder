@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  wordfinder:
+    image: words-finder:1.0
+    ports:
+      - "8080:8080"
+    environment:
+      PROFILE: prod
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://database:5432/wordfinder"
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 889
+    depends_on:
+      - database
+
+  database:
+    image: postgres:11.8-alpine
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/init.db:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: 889
+      POSTGRES_DB: wordfinder
+
+

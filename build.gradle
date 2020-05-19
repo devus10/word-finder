@@ -21,6 +21,7 @@ plugins {
 	id "org.sonarqube" version "2.8"
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'com.palantir.docker' version '0.25.0'
 	id 'java'
 	id 'groovy'
 	id 'idea'
@@ -28,7 +29,6 @@ plugins {
 }
 
 group = 'com.pakisoft'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -106,4 +106,11 @@ jacocoTestReport {
 
 plugins.withType(JacocoPlugin) {
 	tasks["test"].finalizedBy 'jacocoTestReport'
+}
+
+docker {
+	name 'words-finder:1.0'
+	copySpec.from('build/libs').into('.')
+	copySpec.from('docker').into('.')
+	buildArgs([JAR_FILE: 'word-finder.jar'])
 }
