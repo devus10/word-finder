@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
-
 @RequiredArgsConstructor
 @Slf4j
 public class DictionaryDomainService implements DictionaryService {
@@ -21,7 +19,7 @@ public class DictionaryDomainService implements DictionaryService {
 
     @Override
     public void saveAndScheduleSaving() {
-        runAsync(this::saveDictionaries);
+        this.saveDictionaries();
         scheduler.schedule(
                 this::saveDictionaries,
                 cronRetriever.getDictionarySavingCron()
